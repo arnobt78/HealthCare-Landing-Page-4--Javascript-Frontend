@@ -1,0 +1,13 @@
+# Plain static site — allow public pages; block non-existent framework paths.
+User-agent: *
+Allow: /
+Disallow: /api/
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /

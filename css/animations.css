@@ -1,0 +1,22 @@
+/* Scroll reveals + respect reduced motion */
+.reveal {
+  opacity: 0;
+  transform: translateY(1.75rem) scale(0.98);
+  transition:
+    opacity 0.65s var(--ease-out),
+    transform 0.65s var(--ease-out);
+  transition-delay: calc(var(--reveal-i, 0) * 65ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}

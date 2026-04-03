@@ -1,16 +1,6 @@
-# Health Care - Javascript Website Template (Design-4)
+# Pets Health Care Landing Page - JavaScript (Vanilla), HTML5, CSS3 Fundamental Project 5 (Framework-free SPA)
 
-![Screenshot 2025-07-28 at 23 36 55](https://github.com/user-attachments/assets/0b545a06-7742-4202-9eb5-aabefb70b1fd)
-![Screenshot 2025-07-28 at 23 37 13](https://github.com/user-attachments/assets/4689d3fb-3338-49b6-ac06-313234c6114d)
-![Screenshot 2025-07-28 at 23 37 37](https://github.com/user-attachments/assets/8b086587-a5c2-4fcb-aeac-b6b4feafaed3)
-![Screenshot 2025-07-28 at 23 37 55](https://github.com/user-attachments/assets/cc9d8915-2129-4daf-aa3e-750c4ce00451)
-![Screenshot 2025-07-28 at 23 38 13](https://github.com/user-attachments/assets/080e8fdd-fd55-4fa0-b28e-6b8ea2f61f48)
-
----
-
-## Project Summary
-
-This project is a modern, responsive Hospital Management Website built with HTML, CSS, and JavaScript. It is designed to showcase hospital services, doctors, reviews, and more, providing a professional and user-friendly interface for healthcare organizations. The site is fully static and can be run locally or hosted on any web server.
+A modern, responsive Hospital Management Website built with HTML, CSS, and JavaScript. It is designed to showcase hospital services, doctors, reviews, and more, providing a professional and user-friendly interface for healthcare organizations. The site is fully static and can be run locally or hosted on any web server.
 
 - **Live Demo:** [https://healthcare-template-4.netlify.app/](https://healthcare-template-4.netlify.app/)
 
@@ -30,12 +20,18 @@ This project is a modern, responsive Hospital Management Website built with HTML
 
 ---
 
+## Project Summary
+
+This project is a modern, responsive Hospital Management Website built with HTML, CSS, and JavaScript. It is designed to showcase hospital services, doctors, reviews, and more, providing a professional and user-friendly interface for healthcare organizations. The site is fully static and can be run locally or hosted on any web server.
+
+---
+
 ## Features
 
 - Responsive navigation bar with hamburger menu for mobile
 - Hero section with welcome message and call-to-action
 - Technology highlights section
-- About Us section with images and detailed description
+- About Us section with public/images and detailed description
 - Doctors showcase with social icons
 - Services grid with icons and descriptions
 - Customer reviews/testimonials
@@ -52,12 +48,12 @@ This project is a modern, responsive Hospital Management Website built with HTML
 ├── index.html         # Main HTML file
 ├── style.css          # Main stylesheet
 ├── script.js          # JavaScript for interactivity
-└── images/            # All image assets
+└── public/images/            # All image assets
     ├── logo3.png
     ├── hero2.png
     ├── about1.png
     ├── team1.jpg ...
-    └── ... (other images)
+    └── ... (other public/images)
 ```
 
 ---
@@ -118,19 +114,19 @@ This project is a modern, responsive Hospital Management Website built with HTML
 ### script.js
 
 - Handles hamburger menu toggle for mobile navigation:
-  
+
   ```js
-  let menubar = document.querySelector('#menu-bars');
-  let navbar  = document.querySelector('.navbar');
-  menubar.onclick = () =>{
-      menubar.classList.toggle('fa-times');
-      navbar.classList.toggle('active')
-  }
+  let menubar = document.querySelector("#menu-bars");
+  let navbar = document.querySelector(".navbar");
+  menubar.onclick = () => {
+    menubar.classList.toggle("fa-times");
+    navbar.classList.toggle("active");
+  };
   ```
 
-### images/
+### public/images/
 
-- Contains all images used in the site (logo, hero, about, doctors, reviews, etc.).
+- Contains all public/images used in the site (logo, hero, about, doctors, reviews, etc.).
 
 ---
 
@@ -154,7 +150,7 @@ Hospital, Management, Website, Responsive, HTML, CSS, JavaScript, FontAwesome, F
 
 ## Conclusion
 
-This project is a great starting point for anyone looking to build a modern, responsive hospital or healthcare website. All components are modular and easy to adapt for other purposes. Feel free to customize the content, styles, and images to fit your needs.
+This project is a great starting point for anyone looking to build a modern, responsive hospital or healthcare website. All components are modular and easy to adapt for other purposes. Feel free to customize the content, styles, and public/images to fit your needs.
 
 ---
 

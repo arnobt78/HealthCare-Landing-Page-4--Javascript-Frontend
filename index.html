@@ -1,428 +1,509 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hospital management website</title>
+<!doctype html>
+<html lang="en" data-scroll-behavior="smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pawfect Care Clinic — Friendly veterinary care for dogs, cats &amp; more</title>
+    <meta
+      name="description"
+      content="Pawfect Care Clinic offers gentle checkups, emergency support, grooming tips, and wellness plans for your pets. Book a visit today."
+    />
+    <meta property="og:title" content="Pawfect Care Clinic" />
+    <meta
+      property="og:description"
+      content="Modern, kind veterinary care — tails wag, purrs guaranteed (almost)."
+    />
+    <meta property="og:type" content="website" />
 
-    <script src="https://kit.fontawesome.com/c1df782baf.js"></script>
-    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
-    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="/public/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/public/favicon.ico" />
 
-</head>
-<body> 
+    <script src="https://kit.fontawesome.com/c1df782baf.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!--
+      Educational note: This page is one long document. JavaScript reads URL paths
+      (e.g. /team) and scrolls to the matching data-section-id — that is a simple SPA pattern.
+    -->
+    <header class="site-header">
+      <div class="max-w-9xl header-inner">
+        <a href="/" class="logo" data-route aria-label="Pawfect Care home">
+          <img src="/public/logo.png" width="42" height="42" alt="Pawfect Care logo" />
+          <span>Pawfect Care</span>
+        </a>
 
-    <header>
-        
-        <div class="logo"><img src="images/logo3.png" alt=""></div>
-
-        <nav class="navbar">
-            <a href="#Home">Home</a>
-            <a href="#Home">About</a>
-            <a href="#Home">Service</a>
-            <a href="#Home">Gallery</a>
-            <a href="#Home">Blog</a>
-            <a href="#Home">Contact</a>
+        <nav class="navbar" aria-label="Primary">
+          <a href="/" data-route data-nav-for="home">Home</a>
+          <a href="/about" data-route data-nav-for="about">About</a>
+          <div class="nav-dd" data-dropdown>
+            <button
+              type="button"
+              class="nav-dd-toggle"
+              data-dropdown-toggle
+              aria-expanded="false"
+              aria-haspopup="true"
+            >
+              Care types ▾
+            </button>
+            <div class="nav-dd-panel" data-dropdown-panel role="menu">
+              <a href="/services" data-route role="menuitem">All services</a>
+              <a href="/services" data-route role="menuitem">Dogs &amp; puppies</a>
+              <a href="/services" data-route role="menuitem">Cats &amp; kittens</a>
+              <a href="/services" data-route role="menuitem">Small furries</a>
+            </div>
+          </div>
+          <a href="/plans" data-route data-nav-for="plans">Plans</a>
+          <a href="/team" data-route data-nav-for="team">Team</a>
+          <a href="/stories" data-route data-nav-for="stories">Stories</a>
+          <a href="/faq" data-route data-nav-for="faq">FAQ</a>
+          <a href="/contact" data-route data-nav-for="contact">Contact</a>
         </nav>
 
-        <div class="right-icons">
-            <div id="menu-bars" class="fas fa-bars"></div>
-            <div class="btn">Make Appointment</div>
+        <div class="header-actions">
+          <div id="menu-bars" class="fas fa-bars" role="button" tabindex="0" aria-label="Open menu"></div>
+          <span class="cta-shine-wrap">
+            <a href="/contact" data-route class="btn-paw btn-ripple">Book a visit</a>
+          </span>
         </div>
-
+      </div>
     </header>
 
-    <!-- header section ended -->
-
-    <!-- Home section started -->
-
-        <div class="main-home">
-
-            <div class="home">
-                <div class="home-left-content">
-                    <span>welcome to hospital management</span>
-                    <h2>We take care our<br> Patients Healths</h2>
-                    <p class="lorem">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                        Possimus numquam veniam porro eius, fugiat vero ut ipsum libero</p>
-                
-                        <div class="home-btn">
-                            <a href="">Read More</a>
-                            <a class="homebtnsec" href="">Appointment</a>
-                        </div>
-                        
-                    </div>
-
-                <div class="home-right-content">
-                    <img src="images/hero2.png" alt="">
-                </div>
-            </div>
+    <main>
+      <!-- Hero: data-section-id matches the router (path / → home) -->
+      <section class="hero-shell" data-hero data-section-id="home" aria-label="Welcome">
+        <div class="hero__media" aria-hidden="true">
+          <div class="hero__bg-layer" data-hero-bg-layer></div>
+          <div class="hero__bg-layer" data-hero-bg-layer></div>
         </div>
-
-
-        <div class="technology">
-            <div class="main-technology">
-                
-                <div class="inner-technology">
-                    <span></span>
-                    <i class="fi fi-tr-hands-heart"></i>
-                    <h2>Quality & Safety</h2>
-                    <p>Our Delmont hospital utilizes state of the art technology and employs a team of true experts.</p>
-                </div>
-
-                <div class="inner-technology">
-                    <span></span>
-                    <i class="fi fi-rr-doctor"></i>
-                    <h2>Quality & Safety</h2>
-                    <p>Our Delmont hospital utilizes state of the art technology and employs a team of true experts.</p>
-                </div>
-
-                <div class="inner-technology">
-                    <span></span>
-                    <i class="fi fi-tr-user-md"></i>
-                    <h2>Quality & Safety</h2>
-                    <p>Our Delmont hospital utilizes state of the art technology and employs a team of true experts.</p>
-                </div>
+        <div class="max-w-9xl hero-grid">
+          <div>
+            <p class="hero-kicker reveal" data-greeting>Welcome, pet parent!</p>
+            <h1 class="hero-title reveal">
+              We <span>love</span> your pets like family
+            </h1>
+            <p class="hero-copy reveal">
+              Gentle exams, clear advice, and cozy vibes — because vet visits should feel safe,
+              not scary, for fluffy friends of every size.
+            </p>
+            <div class="hero-cta reveal">
+              <span class="cta-shine-wrap">
+                <a href="/contact" data-route class="btn-paw btn-ripple">Schedule cuddles… uh, checkup</a>
+              </span>
+              <span class="cta-shine-wrap cta-shine-wrap--outline">
+                <a href="/services" data-route class="btn-outline btn-ripple btn-ripple--outline">Explore services</a>
+              </span>
             </div>
+          </div>
+          <!-- Five pet photos: CSS staggers entrance (see css/components.css hero-shot) -->
+          <div class="hero-gallery" aria-label="Happy pets collage">
+            <figure class="hero-shot hero-shot--1">
+              <img
+                data-dynamic-img="heroGallery1"
+                data-fallback-img="dogSmile"
+                src=""
+                width="400"
+                height="320"
+                alt="Golden retriever playing outdoors"
+                loading="eager"
+                decoding="async"
+              />
+            </figure>
+            <figure class="hero-shot hero-shot--2">
+              <img
+                data-dynamic-img="heroGallery2"
+                data-fallback-img="catHero"
+                src=""
+                width="280"
+                height="280"
+                alt="Curious cat portrait"
+                loading="eager"
+                decoding="async"
+              />
+            </figure>
+            <figure class="hero-shot hero-shot--3">
+              <img
+                data-dynamic-img="heroGallery3"
+                data-fallback-img="rabbit"
+                src=""
+                width="260"
+                height="260"
+                alt="Smiling dog portrait"
+                loading="eager"
+                decoding="async"
+              />
+            </figure>
+            <figure class="hero-shot hero-shot--4">
+              <img
+                data-dynamic-img="heroGallery4"
+                data-fallback-img="dogSmile"
+                src=""
+                width="300"
+                height="360"
+                alt="Dogs running together"
+                loading="eager"
+                decoding="async"
+              />
+            </figure>
+            <figure class="hero-shot hero-shot--5">
+              <img
+                data-dynamic-img="heroGallery5"
+                data-fallback-img="catHero"
+                src=""
+                width="320"
+                height="320"
+                alt="Cat being petted gently"
+                loading="eager"
+                decoding="async"
+              />
+            </figure>
+            <div class="hero-float-card">
+              <span aria-hidden="true">🐶</span> Same-day slots for new patients
+            </div>
+          </div>
         </div>
+      </section>
 
-    <!-- home section ends -->
-
-    <!-- About us section started -->
-
-        <div class="main-about">
-
-            <div class="about-heading">About Us</div>
-
-            <div class="inner-main-about">
-                <div class="about-inner-content-left">
-                    <img src="images/about1.png" alt="">
-                </div>
-
-                <div class="about-inner-content">
-                    <div class="about-right-content">
-                        <h2>We're setting Standards in Research <br> what's more, Clinical Care.</h2>
-                        <p>We provide the most full medical services, so every person could have the pportunity 
-                         o receive qualitative medical help.</p>
-                        <p class="aboutsec-content">
-                            Our Clinic has grown to provide a world class facility for the treatment of tooth loss, dental cosmetics and bore advanced restorative dentistry. We are among
-                             the most qualified implant providers in the AUS with over 30 years of uality training and experience.
-                            </p>
-                            <button class="aboutbtn">Read More</button>
-                    </div>
-                </div>
-            </div>
+      <!-- Stagger container: children get .is-visible one after another in JS -->
+      <section class="section-block section-badges" aria-label="Trust badges">
+        <div class="max-w-9xl">
+          <h2 class="section-title reveal">Why families trust us</h2>
+          <div class="badge-row" data-reveal-stagger>
+            <span class="pet-badge reveal"><i class="fas fa-certificate" aria-hidden="true"></i> Licensed vets</span>
+            <span class="pet-badge reveal"><i class="fas fa-heart" aria-hidden="true"></i> Fear-free handling</span>
+            <span class="pet-badge reveal"><i class="fas fa-shield-dog" aria-hidden="true"></i> Vaccine tracking app</span>
+            <span class="pet-badge reveal"><i class="fas fa-bolt" aria-hidden="true"></i> Urgent same-day care</span>
+            <span class="pet-badge reveal"><i class="fas fa-carrot" aria-hidden="true"></i> Nutrition coaching</span>
+          </div>
         </div>
+      </section>
 
-    <!-- About us section ends -->
-
-    <!-- our doctors -->
-
-        <div class="main-doctors">
-            <div class="doctors-heading">
-                <h2>Our Doctors</h2>
+      <section class="section-block section-about" data-section-id="about" id="about">
+        <div class="max-w-9xl">
+          <h2 class="section-title reveal">Snuggles, science &amp; snacks</h2>
+          <p class="section-lead reveal">
+            Pawfect Care blends modern medicine with low-stress handling — fewer white-knuckle
+            car rides, more tail wags at the door.
+          </p>
+          <div class="about-grid">
+            <div class="about-visual reveal">
+              <img
+                data-dynamic-img="about"
+                src=""
+                width="900"
+                height="900"
+                alt="Veterinarian gently examining a calm dog"
+              />
             </div>
-
-            <div class="main-inner-doctor">
-                <div class="doc-poster">
-                    <div class="doc-icons">
-                        <i class="fa-solid fa-share"></i>
-                        <i class="fa-solid fa-eye"></i>
-                        <i class="fa-solid fa-heart"></i>
-                    </div>
-                    <img src="images/team1.jpg" alt="">
-
-                    <div class="doc-details">
-                        <h2>Mr Joe</h2>
-                        
-                        <i class="fa-brands fa-linkedin"></i>
-                        <i class="fa-brands fa-instagram"></i>
-                    </div>
-
-                </div>
-
-                <div class="doc-poster">
-                    <div class="doc-icons">
-                        <i class="fa-solid fa-share"></i>
-                        <i class="fa-solid fa-eye"></i>
-                        <i class="fa-solid fa-heart"></i>
-                    </div>
-                    <img src="images/team2.jpg" alt="">
-                    <div class="doc-details">
-                        <h2>Mr Joe</h2>
-                        
-                        <i class="fa-brands fa-linkedin"></i>
-                        <i class="fa-brands fa-instagram"></i>
-                    </div>
-                </div>
-
-                <div class="doc-poster">
-                    <div class="doc-icons">
-                        <i class="fa-solid fa-share"></i>
-                        <i class="fa-solid fa-eye"></i>
-                        <i class="fa-solid fa-heart"></i>
-                    </div>
-                    <img src="images/team3.jpg" alt="">
-                    <div class="doc-details">
-                        <h2>Mr Joe</h2>
-                        
-                        <i class="fa-brands fa-linkedin"></i>
-                        <i class="fa-brands fa-instagram"></i>
-                    </div>
-                </div>
-
-                <div class="doc-poster">
-                    <div class="doc-icons">
-                        <i class="fa-solid fa-share"></i>
-                        <i class="fa-solid fa-eye"></i>
-                        <i class="fa-solid fa-heart"></i>
-                    </div>
-                    <img src="images/team4.jpg" alt="">
-                    <div class="doc-details">
-                        <h2>Mr Joe</h2>
-                        
-                        <i class="fa-brands fa-linkedin"></i>
-                        <i class="fa-brands fa-instagram"></i>
-                    </div>
-                </div>
-
-                <div class="doc-poster">
-                    <div class="doc-icons">
-                        <i class="fa-solid fa-share"></i>
-                        <i class="fa-solid fa-eye"></i>
-                        <i class="fa-solid fa-heart"></i>
-                    </div>
-                    <img src="images/team5.jpg" alt="">
-                    <div class="doc-details">
-                        <h2>Mr Joe</h2>
-                        
-                        <i class="fa-brands fa-linkedin"></i>
-                        <i class="fa-brands fa-instagram"></i>
-                    </div>
-                </div>
-
-                <div class="doc-poster">
-                    <div class="doc-icons">
-                        <i class="fa-solid fa-share"></i>
-                        <i class="fa-solid fa-eye"></i>
-                        <i class="fa-solid fa-heart"></i>
-                    </div>
-                    <img src="images/team6.jpg" alt="">
-
-                    <div class="doc-details">
-                        <h2>Mr Joe</h2>
-                        
-                        <i class="fa-brands fa-linkedin"></i>
-                        <i class="fa-brands fa-instagram"></i>
-                    </div>
-
-                </div>
+            <div>
+              <p class="reveal">
+                Our team explains every step in plain language, uses tasty treats as positive
+                reinforcement, and never rushes your questions — whether it is a sneezy kitten
+                or a senior bunny.
+              </p>
+              <ul class="about-list">
+                <li class="reveal">Digital records you can read on your phone</li>
+                <li class="reveal">Separate cat &amp; dog waiting zones</li>
+                <li class="reveal">Post-visit summaries with cute paw-print stickers</li>
+              </ul>
             </div>
-
+          </div>
         </div>
+      </section>
 
-    <!-- our doctors ended -->
+      <section class="section-block section-services" data-section-id="services" id="services">
+        <div class="max-w-9xl">
+          <h2 class="section-title reveal">Services that cover every whisker</h2>
+          <p class="section-lead reveal">Pick a tab to see what we do best for each kind of companion.</p>
 
-    <!-- our services -->
-
-    <div class="our-service">
-        <div class="service-heading">
-            <h2>Our Services</h2>
+          <!-- data-tabs wraps buttons + panels; JS wires aria and visibility -->
+          <div data-tabs>
+            <div class="tabs-head reveal">
+              <button type="button" class="tab-btn is-active" data-tab-target="tab-dogs" aria-selected="true">
+                Dogs
+              </button>
+              <button type="button" class="tab-btn" data-tab-target="tab-cats" aria-selected="false">Cats</button>
+              <button type="button" class="tab-btn" data-tab-target="tab-small" aria-selected="false">
+                Small pets
+              </button>
+            </div>
+            <div id="tab-dogs" class="tab-panel is-active reveal" data-tab-panel role="tabpanel">
+              <div class="service-mini-grid">
+                <div class="service-pill">
+                  <i class="fas fa-stethoscope" aria-hidden="true"></i>
+                  <div>
+                    <h4>Wellness exams</h4>
+                    <p>Nose-to-tail checks, weight trends, and playful mobility games.</p>
+                  </div>
+                </div>
+                <div class="service-pill">
+                  <i class="fas fa-syringe" aria-hidden="true"></i>
+                  <div>
+                    <h4>Vaccines &amp; boosters</h4>
+                    <p>Personalized schedules based on lifestyle — park pups vs. couch potatoes.</p>
+                  </div>
+                </div>
+                <div class="service-pill">
+                  <i class="fas fa-tooth" aria-hidden="true"></i>
+                  <div>
+                    <h4>Dental sparkle</h4>
+                    <p>Scale &amp; polish with cozy warming blankets afterward.</p>
+                  </div>
+                </div>
+                <div class="service-pill">
+                  <i class="fas fa-bandage" aria-hidden="true"></i>
+                  <div>
+                    <h4>Minor surgery</h4>
+                    <p>Clear discharge sheets and text updates while you grab coffee.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="tab-cats" class="tab-panel reveal" data-tab-panel role="tabpanel">
+              <div class="service-mini-grid">
+                <div class="service-pill">
+                  <i class="fas fa-cat" aria-hidden="true"></i>
+                  <div>
+                    <h4>Stealth-mode exams</h4>
+                    <p>Soft mats, pheromone diffusers, and quiet rooms for shy kitties.</p>
+                  </div>
+                </div>
+                <div class="service-pill">
+                  <i class="fas fa-droplet" aria-hidden="true"></i>
+                  <div>
+                    <h4>Hydration &amp; kidney care</h4>
+                    <p>At-home fountain tips plus lab work when needed.</p>
+                  </div>
+                </div>
+                <div class="service-pill">
+                  <i class="fas fa-paw" aria-hidden="true"></i>
+                  <div>
+                    <h4>Nail &amp; coat spa</h4>
+                    <p>Low-stress trims — treats included, attitude optional.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="tab-small" class="tab-panel reveal" data-tab-panel role="tabpanel">
+              <div class="service-mini-grid">
+                <div class="service-pill">
+                  <i class="fas fa-carrot" aria-hidden="true"></i>
+                  <div>
+                    <h4>Rabbits &amp; rodents</h4>
+                    <p>Tooth alignment checks, hay diets, and habitat hygiene coaching.</p>
+                  </div>
+                </div>
+                <div class="service-pill">
+                  <i class="fas fa-feather" aria-hidden="true"></i>
+                  <div>
+                    <h4>Bird beak &amp; wing</h4>
+                    <p>Partner avian vets on call for feathers that need extra love.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </section>
 
-        <div class="main-services">
-            <div class="inner-services">
-                <div class="service-icon">
-                    <i class="fa-solid fa-truck-medical"></i>
-                </div>
-                <h3>Health Check</h3>
-                <p>We offer extensive medical procedures to outbound & inbound patients what it is and we are very proud achievement staff.</p>
-            </div>
-
-            <div class="inner-services">
-                <div class="service-icon">
-                    <i class="fa-regular fa-hospital"></i>
-                </div>
-                <h3>Health Check</h3>
-                <p>We offer extensive medical procedures to outbound & inbound patients what it is and we are very proud achievement staff.</p>
-            </div>
-
-            <div class="inner-services">
-                <div class="service-icon">
-                    <i class="fa-regular fa-heart"></i>
-                </div>
-                <h3>Health Check</h3>
-                <p>We offer extensive medical procedures to outbound & inbound patients what it is and we are very proud achievement staff.</p>
-            </div>
-
-            <div class="inner-services">
-                <div class="service-icon">
-                    <i class="fa-solid fa-notes-medical"></i>
-                </div>
-                <h3>Health Check</h3>
-                <p>We offer extensive medical procedures to outbound & inbound patients what it is and we are very proud achievement staff.</p>
-            </div>
-
-            <div class="inner-services">
-                <div class="service-icon">
-                    <i class="fa-solid fa-list-check"></i>
-                </div>
-                <h3>Health Check</h3>
-                <p>We offer extensive medical procedures to outbound & inbound patients what it is and we are very proud achievement staff.</p>
-            </div>
-
-            <div class="inner-services">
-                <div class="service-icon">
-                    <i class="fa-solid fa-user-doctor"></i>
-                </div>
-                <h3>Health Check</h3>
-                <p>We offer extensive medical procedures to outbound & inbound patients what it is and we are very proud achievement staff.</p>
-            </div>
+      <section class="section-block section-plans" data-section-id="plans" id="plans">
+        <div class="max-w-9xl">
+          <h2 class="section-title reveal">Wellness plans (human treats not included)</h2>
+          <p class="section-lead reveal">Compare what is bundled — upgrade anytime as your pet grows.</p>
+          <div class="plans-table-wrap reveal">
+            <table class="plans-table">
+              <thead>
+                <tr>
+                  <th>Plan</th>
+                  <th>Monthly</th>
+                  <th>Checkups</th>
+                  <th>Emergency</th>
+                </tr>
+              </thead>
+              <tbody data-reveal-stagger>
+                <tr class="reveal">
+                  <td><strong>Wag Starter</strong></td>
+                  <td class="plan-price">$29/mo</td>
+                  <td>2 / year</td>
+                  <td>Discounted fees</td>
+                </tr>
+                <tr class="reveal">
+                  <td><strong>Purr Plus</strong></td>
+                  <td class="plan-price">$49/mo</td>
+                  <td>4 / year</td>
+                  <td>Priority phone line</td>
+                </tr>
+                <tr class="reveal">
+                  <td><strong>Golden Paws</strong></td>
+                  <td class="plan-price">$79/mo</td>
+                  <td>Unlimited</td>
+                  <td>24/7 triage hotline</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-    </div>
+      </section>
 
-    <!-- our services ended -->
-
-    <!-- customer review -->
-   
-        <div class="main-review">
-            <section>  
-            <div class="review-heading">
-                <h1>Our Customers Review</h1>
-            </div>
-
-            <div class="main-inner-review">
-
-                <div class="review-inner-content">
-
-                    <div class="review-box">
-                        <img src="images/pic1.png" alt="">
-
-                        <h2>Lara John</h2>
-                        <div class="review-stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-    
-                        <div class="review-text">
-                            <p>Optio quod assumenda similique provident aliquid corrupti minima maxime tempore! Quas illo porro fuga consectetur repellat </p>
-                        </div>
-
-                    </div>
-
-                    <div class="review-box">
-                        <img src="images/pic2.png" alt="">
-
-                        <h2>Lara John</h2>
-                        <div class="review-stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-    
-                        <div class="review-text">
-                            <p>Optio quod assumenda similique provident aliquid corrupti minima maxime tempore! Quas illo porro fuga consectetur repellat</p>
-                        </div>
-
-                    </div>
-
-                    <div class="review-box">
-                        <img src="images/pic3.png" alt="">
-
-                        <h2>Lara John</h2>
-                        <div class="review-stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-    
-                        <div class="review-text">
-                            <p>Optio quod assumenda similique provident aliquid corrupti minima maxime tempore! Quas illo porro fuga consectetur repellat</p>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-        </section>
+      <section class="section-block section-team" data-section-id="team" id="team">
+        <div class="max-w-9xl">
+          <h2 class="section-title reveal">Humans behind the head scratches</h2>
+          <p class="section-lead reveal">Meet a few of the people who keep tails wagging.</p>
+          <div class="team-grid" data-reveal-stagger>
+            <article class="team-card reveal">
+              <img data-dynamic-img="vetTeam1" src="" width="600" height="600" alt="Dr. Amara smiling with clipboard" />
+              <div class="team-card-body">
+                <span class="team-role">Lead veterinarian</span>
+                <h3>Dr. Amara Lin</h3>
+                <p>Soft voice, steady hands, specializes in anxious pups.</p>
+              </div>
+            </article>
+            <article class="team-card reveal">
+              <img data-dynamic-img="vetTeam2" src="" width="600" height="600" alt="Vet tech holding a small dog" />
+              <div class="team-card-body">
+                <span class="team-role">Vet nurse</span>
+                <h3>Jordan M.</h3>
+                <p>Expert at treat-to-weight ratios and silly nicknames.</p>
+              </div>
+            </article>
+            <article class="team-card reveal">
+              <img data-dynamic-img="vetTeam3" src="" width="600" height="600" alt="Veterinarian with stethoscope" />
+              <div class="team-card-body">
+                <span class="team-role">Surgeon</span>
+                <h3>Dr. Priya N.</h3>
+                <p>Explains procedures with diagrams you will actually understand.</p>
+              </div>
+            </article>
+            <article class="team-card reveal">
+              <img data-dynamic-img="vetTeam4" src="" width="600" height="600" alt="Clinic staff at reception" />
+              <div class="team-card-body">
+                <span class="team-role">Client joy</span>
+                <h3>Riley &amp; Sam</h3>
+                <p>Front desk duo — scheduling wizards and professional baby-talkers.</p>
+              </div>
+            </article>
+          </div>
         </div>
-    
-    <!-- customer review -->
+      </section>
 
-
-    <!-- footer -->
-
-    <div class="main-footer">
-        <div class="footer-inner">
-            <div class="footer-content">
-                <h1>Dummy Links</h1>
-                <div class="link">
-                    <a href="">Home</a>
-                <a href="">Home</a>
-                <a href="">Home</a>
-                <a href="">Home</a>
-                <a href="">Home</a>
-                </div>
-            </div>
-
-            <div class="footer-content">
-                <h1>Dummy Links</h1>
-                <div class="link">
-                    <a href="">Home</a>
-                <a href="">Home</a>
-                <a href="">Home</a>
-                <a href="">Home</a>
-                <a href="">Home</a>
-                </div>
-            </div>
-
-            <div class="footer-content">
-                <h1>Dummy Links</h1>
-                <div class="link">
-                    <a href="">Home</a>
-                <a href="">Home</a>
-                <a href="">Home</a>
-                <a href="">Home</a>
-                <a href="">Home</a>
-                </div>
-            </div>
-
-            <div class="footer-content">
-                <h1>Dummy Links</h1>
-                <div class="link">
-                    <a href="">Home</a>
-                <a href="">Home</a>
-                <a href="">Home</a>
-                <a href="">Home</a>
-                <a href="">Home</a>
-                </div>
-            </div>
-
-            <div class="footer-content">
-                <h1>Dummy Links</h1>
-                <div class="link">
-                    <a href="">Home</a>
-                <a href="">Home</a>
-                <a href="">Home</a>
-                <a href="">Home</a>
-                <a href="">Home</a>
-                </div>
-            </div>
+      <section class="section-block section-reviews" data-section-id="stories" id="stories">
+        <div class="max-w-9xl">
+          <h2 class="section-title reveal">Pet parent stories</h2>
+          <p class="section-lead reveal">Real words from humans who share sofas with our patients.</p>
+          <div class="review-grid" data-reveal-stagger>
+            <article class="review-card reveal">
+              <img data-dynamic-img="review1" src="" width="200" height="200" alt="Portrait of Mia" />
+              <div class="review-stars" aria-label="4 out of 5 stars">
+                <i class="fas fa-star" aria-hidden="true"></i>
+                <i class="fas fa-star" aria-hidden="true"></i>
+                <i class="fas fa-star" aria-hidden="true"></i>
+                <i class="fas fa-star" aria-hidden="true"></i>
+                <i class="far fa-star" aria-hidden="true"></i>
+              </div>
+              <h3>Mia &amp; Beans</h3>
+              <p>Beans hid under the chair — until treats appeared. Now he drags me to the door.</p>
+            </article>
+            <article class="review-card reveal">
+              <img data-dynamic-img="review2" src="" width="200" height="200" alt="Portrait of Theo" />
+              <div class="review-stars" aria-label="5 out of 5 stars">
+                <i class="fas fa-star" aria-hidden="true"></i>
+                <i class="fas fa-star" aria-hidden="true"></i>
+                <i class="fas fa-star" aria-hidden="true"></i>
+                <i class="fas fa-star" aria-hidden="true"></i>
+                <i class="fas fa-star" aria-hidden="true"></i>
+              </div>
+              <h3>Theo &amp; Noodle</h3>
+              <p>Noodle is a dramatic cat. The separate cat entrance changed everything.</p>
+            </article>
+            <article class="review-card reveal">
+              <img data-dynamic-img="review3" src="" width="200" height="200" alt="Portrait of Priya" />
+              <div class="review-stars" aria-label="5 out of 5 stars">
+                <i class="fas fa-star" aria-hidden="true"></i>
+                <i class="fas fa-star" aria-hidden="true"></i>
+                <i class="fas fa-star" aria-hidden="true"></i>
+                <i class="fas fa-star" aria-hidden="true"></i>
+                <i class="fas fa-star" aria-hidden="true"></i>
+              </div>
+              <h3>Priya &amp; Mochi</h3>
+              <p>They texted photos after Mochi’s dental. I cried (happy tears).</p>
+            </article>
+          </div>
         </div>
-    </div>
-        
-    <!-- footer ended -->
+      </section>
 
+      <section class="section-block section-faq" data-section-id="faq" id="faq">
+        <div class="max-w-9xl">
+          <h2 class="section-title reveal">FAQ — frequently asked cuddles</h2>
+          <p class="section-lead reveal">Tap a question — this is a vanilla JS accordion (no libraries).</p>
+          <div class="faq-list">
+            <div class="faq-item reveal" data-faq-item>
+              <button type="button" class="faq-toggle" data-faq-toggle aria-expanded="false">
+                Do you see exotic pets?
+                <i class="fas fa-chevron-down" aria-hidden="true"></i>
+              </button>
+              <div class="faq-panel" data-faq-panel hidden>
+                Yes — rabbits, guinea pigs, and select birds by appointment. Reptiles get a referral to
+                our partner herp clinic down the road.
+              </div>
+            </div>
+            <div class="faq-item reveal" data-faq-item>
+              <button type="button" class="faq-toggle" data-faq-toggle aria-expanded="false">
+                Can I stay with my pet?
+                <i class="fas fa-chevron-down" aria-hidden="true"></i>
+              </button>
+              <div class="faq-panel" data-faq-panel hidden>
+                For many exams, absolutely. Some procedures need a sterile space — we will tell you
+                before you even put on the hairnet.
+              </div>
+            </div>
+            <div class="faq-item reveal" data-faq-item>
+              <button type="button" class="faq-toggle" data-faq-toggle aria-expanded="false">
+                How do I book?
+                <i class="fas fa-chevron-down" aria-hidden="true"></i>
+              </button>
+              <div class="faq-panel" data-faq-panel hidden>
+                Use the big friendly button, call us, or send a raven (email works faster).
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    <script src="script.js"></script>
+      <section class="section-block section-contact" data-section-id="contact" id="contact">
+        <div class="max-w-9xl footer-grid">
+          <div class="reveal">
+            <div class="logo" style="margin-bottom: 1.2rem">
+              <img src="/public/logo.png" width="42" height="42" alt="" />
+              <span>Pawfect Care</span>
+            </div>
+            <p>
+              128 Wagging Tail Lane · Open Mon–Sat · Emergency line for plan members overnight.
+            </p>
+          </div>
+          <div class="footer-col reveal">
+            <h4>Visit</h4>
+            <a href="/services" data-route>Services</a>
+            <a href="/plans" data-route>Wellness plans</a>
+            <a href="/team" data-route>Team</a>
+          </div>
+          <div class="footer-col reveal">
+            <h4>Learn</h4>
+            <a href="/faq" data-route>FAQ</a>
+            <a href="/stories" data-route>Stories</a>
+            <a href="/about" data-route>Our story</a>
+          </div>
+          <div class="footer-col reveal">
+            <h4>Say hi</h4>
+            <a href="mailto:hello@pawfectcare.example">hello@pawfectcare.example</a>
+            <a href="tel:+15551234567">(555) 123-PAWS</a>
+          </div>
+        </div>
+        <div class="max-w-9xl footer-bottom reveal">
+          <p>Made with vanilla JS for learning — swap copy, add routes, keep the treats flowing.</p>
+        </div>
+      </section>
+    </main>
 
-</body>
+    <script type="module" src="js/main.js"></script>
+  </body>
 </html>

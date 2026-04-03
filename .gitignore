@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Environment & local tooling
+.env
+.env.*
+!.env.example
+.vercel
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
+
+# Vercel build output (see docs/VERCEL-PLAIN-JS-DEPLOY.md)
+dist/
+build/
