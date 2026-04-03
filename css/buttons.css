@@ -8,6 +8,7 @@
   vertical-align: middle;
 }
 
+/* Shine must paint above the solid .btn-paw background (gradient is mostly transparent). */
 .cta-shine-wrap::after {
   content: "";
   position: absolute;
@@ -21,7 +22,7 @@
     transparent 70%
   );
   pointer-events: none;
-  z-index: 1;
+  z-index: 2;
   transform: skewX(-8deg);
   animation: cta-shine 4.5s cubic-bezier(0.35, 0, 0.15, 1) infinite;
 }
@@ -44,7 +45,7 @@
 
 .cta-shine-wrap .btn-paw {
   position: relative;
-  z-index: 2;
+  z-index: 1;
 }
 
 /* Outline / ghost CTA — softer sweep (RIPPLE_BUTTON_EFFECT + shine combo) */
@@ -52,15 +53,15 @@
   background: linear-gradient(
     105deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.75) 42%,
-    rgba(180, 240, 230, 0.5) 55%,
-    transparent 72%
+    rgba(255, 255, 255, 0.55) 40%,
+    rgba(153, 246, 228, 0.35) 52%,
+    transparent 75%
   );
 }
 
 .cta-shine-wrap--outline .btn-outline {
   position: relative;
-  z-index: 2;
+  z-index: 1;
 }
 
 a.btn-outline {
@@ -90,5 +91,5 @@ a.btn-outline {
 }
 
 .btn-ripple-fx--outline {
-  background: rgba(19, 116, 106, 0.28);
+  background: rgba(255, 255, 255, 0.35);
 }
