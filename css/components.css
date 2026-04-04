@@ -3,6 +3,7 @@
 /* —— Hero —— rotating full-bleed bg (docs/HERO_ROTATING_BACKGROUND_SPEC.md) */
 .hero-shell {
   position: relative;
+  z-index: 2;
   isolation: isolate;
   box-sizing: border-box;
   /* Stable viewport height (no jump when mobile browser chrome shows/hides) */
@@ -672,7 +673,7 @@
 
 /* —— Trust badges —— */
 .section-badges {
-  background: linear-gradient(180deg, var(--color-cream) 0%, #fff 100%);
+  background: transparent;
 }
 
 .badge-row {
@@ -716,7 +717,7 @@
 
 /* —— About —— */
 .section-about {
-  background: var(--color-white);
+  background: transparent;
 }
 
 .about-grid {
@@ -760,7 +761,7 @@
 
 /* —— Services + tabs —— */
 .section-services {
-  background: linear-gradient(180deg, #fff 0%, rgba(255, 234, 167, 0.25) 100%);
+  background: transparent;
 }
 
 .tabs-head {
@@ -851,7 +852,7 @@
 
 /* —— Plans table —— */
 .section-plans {
-  background: var(--color-white);
+  background: transparent;
 }
 
 .plans-table-wrap {
@@ -891,11 +892,7 @@
 
 /* —— Team cards —— */
 .section-team {
-  background: linear-gradient(
-    180deg,
-    rgba(220, 214, 247, 0.35) 0%,
-    var(--color-cream) 100%
-  );
+  background: transparent;
 }
 
 .team-grid {
@@ -968,7 +965,7 @@
 
 /* —— Reviews —— */
 .section-reviews {
-  background: var(--color-white);
+  background: transparent;
 }
 
 .review-grid {
@@ -1023,7 +1020,7 @@
 
 /* —— FAQ —— */
 .section-faq {
-  background: linear-gradient(180deg, #fff 0%, var(--color-lilac) 100%);
+  background: transparent;
 }
 
 .faq-list {
@@ -1077,13 +1074,13 @@
 
 /* —— Contact / footer —— */
 .section-contact {
-  background: var(--color-ink);
-  color: var(--color-cream);
-  border-radius: var(--radius-paw) var(--radius-paw) 0 0;
+  background: transparent;
+  color: var(--color-ink);
+  border-radius: 0;
 }
 
 .section-contact .section-title {
-  color: var(--color-butter);
+  color: var(--color-mint-dark);
 }
 
 .footer-grid {
@@ -1121,7 +1118,8 @@
   display: block;
   padding: 0.5rem 0;
   font-size: 1.45rem;
-  opacity: 0.9;
+  color: var(--color-mint-dark);
+  opacity: 0.92;
   transition: opacity 0.2s;
 }
 
@@ -1133,8 +1131,9 @@
 .footer-bottom {
   margin-top: 3rem;
   padding-top: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid rgba(19, 116, 106, 0.15);
   font-size: 1.35rem;
-  opacity: 0.75;
+  color: var(--color-muted);
+  opacity: 0.9;
   text-align: center;
 }

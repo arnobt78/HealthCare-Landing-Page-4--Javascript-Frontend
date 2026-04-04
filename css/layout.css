@@ -21,9 +21,21 @@ body {
   /* UI_STYLING_GUIDE: soft radial mesh (adapted to pet / teal palette) */
   background-color: var(--color-cream);
   background-image:
-    radial-gradient(circle at 12% 8%, rgba(19, 116, 106, 0.12), transparent 42%),
-    radial-gradient(circle at 88% 18%, rgba(255, 180, 162, 0.18), transparent 45%),
-    radial-gradient(circle at 50% 92%, rgba(220, 214, 247, 0.35), transparent 50%);
+    radial-gradient(
+      circle at 12% 8%,
+      rgba(19, 116, 106, 0.12),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 88% 18%,
+      rgba(255, 180, 162, 0.18),
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 50% 92%,
+      rgba(220, 214, 247, 0.35),
+      transparent 50%
+    );
 }
 
 body::before {
@@ -32,7 +44,11 @@ body::before {
   inset: 0;
   pointer-events: none;
   z-index: -1;
-  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.4), transparent 62%);
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.4),
+    transparent 62%
+  );
 }
 
 main {
@@ -41,6 +57,76 @@ main {
   width: 100%;
   max-width: 100%;
   padding-top: 0;
+}
+
+/*
+ * Page-wide SVG decor: fixed to the viewport. Paws bottom corners; center motif
+ * uses a ~60vw × 60vh box (dynamic viewport units where supported) with
+ * background-size: contain. Under .section-block (z-index: 1) and .hero-shell (z-index: 2).
+ */
+.post-hero-bg-decor {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: visible;
+}
+
+.post-hero-bg-decor__paw {
+  position: absolute;
+  bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
+  width: clamp(5.5rem, 11vw, 10rem);
+  height: clamp(5.5rem, 11vw, 10rem);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0.38;
+}
+
+.post-hero-bg-decor__paw--left {
+  left: max(0.35rem, env(safe-area-inset-left, 0px));
+  background-image: url("/public/paws-green-left.svg");
+}
+
+.post-hero-bg-decor__paw--right {
+  right: max(0.35rem, env(safe-area-inset-right, 0px));
+  background-image: url("/public/paws-green-right.svg");
+}
+
+.post-hero-bg-decor__together {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  /* ~80% of viewport; SVG scales inside without distortion */
+  width: 80vw;
+  height: 80vh;
+  background-image: url("/public/pets-together.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0.22;
+}
+
+@supports (height: 1dvh) {
+  .post-hero-bg-decor__together {
+    width: 80dvw;
+    height: 80dvh;
+  }
+}
+
+@media (max-width: 639px) {
+  .post-hero-bg-decor__paw {
+    width: clamp(4.5rem, 18vw, 7.5rem);
+    height: clamp(4.5rem, 18vw, 7.5rem);
+    opacity: 0.34;
+  }
+
+  .post-hero-bg-decor__together {
+    width: 60vw;
+    height: 60vh;
+    opacity: 0.18;
+  }
 }
 
 body.nav-open {
@@ -364,6 +450,8 @@ a.btn-paw {
 }
 
 .section-block {
+  position: relative;
+  z-index: 1;
   padding: clamp(4rem, 8vw, 8rem) 0;
 }
 
