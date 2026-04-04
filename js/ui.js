@@ -2,7 +2,7 @@
  * UI behaviors: mobile nav, dropdown, tabs, FAQ accordion, dynamic images.
  */
 
-import { IMAGES } from "./data.js";
+import { IMAGES, IMAGE_REMOTE_FALLBACK } from "./data.js";
 import { setAppState } from "./appContext.js";
 
 /**
@@ -14,14 +14,18 @@ import { setAppState } from "./appContext.js";
  * Mirrors docs/SAFE_IMAGE_REUSABLE_COMPONENT.md for plain HTML projects.
  */
 function bindImageFallback(img) {
+  const dynKey = img.getAttribute("data-dynamic-img");
   const fbKey = img.getAttribute("data-fallback-img");
-  if (!fbKey || !IMAGES[fbKey]) return;
   img.addEventListener(
     "error",
     () => {
       if (img.dataset.safeImgDone === "1") return;
       img.dataset.safeImgDone = "1";
-      img.setAttribute("src", IMAGES[fbKey]);
+      const remoteDyn = dynKey && IMAGE_REMOTE_FALLBACK[dynKey];
+      const localFb = fbKey && IMAGES[fbKey];
+      const remoteFb = fbKey && IMAGE_REMOTE_FALLBACK[fbKey];
+      const next = remoteDyn || localFb || remoteFb;
+      if (next) img.setAttribute("src", next);
     },
     { once: true },
   );
@@ -161,7 +165,12 @@ export function initGreeting() {
   else if (h < 17) msg = "Good afternoon";
   else msg = "Good evening";
 
-  el.textContent = `${msg}, pet parent!`;
+  const textNode = el.querySelector(".hero-kicker__text");
+  if (textNode) {
+    textNode.textContent = `${msg}, pet parent!`;
+  } else {
+    el.textContent = `${msg}, pet parent!`;
+  }
   setAppState({ lastSection: "home" });
 }
 

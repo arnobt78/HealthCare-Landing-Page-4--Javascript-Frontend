@@ -2,7 +2,7 @@
 
 A modern, responsive Hospital Management Website built with HTML, CSS, and JavaScript. It is designed to showcase hospital services, doctors, reviews, and more, providing a professional and user-friendly interface for healthcare organizations. The site is fully static and can be run locally or hosted on any web server.
 
-- **Live Demo:** [https://healthcare-template-4.netlify.app/](https://healthcare-template-4.netlify.app/)
+- **Live Demo:** [https://pets-healthcare.vercel.app/](https://pets-healthcare.vercel.app/)
 
 ---
 

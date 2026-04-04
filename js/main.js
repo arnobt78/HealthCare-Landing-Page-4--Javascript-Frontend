@@ -7,6 +7,7 @@ import { initRouter } from "./router.js";
 import { initScrollReveal, initParallax } from "./scrollReveal.js";
 import { initRippleButtons } from "./ripple.js";
 import { initHeroRotation } from "./heroRotation.js";
+import { initHeroTitleWord } from "./heroTitleWord.js";
 import {
   applyDynamicImages,
   initMobileNav,
@@ -21,6 +22,7 @@ function boot() {
   applyDynamicImages();
   initGreeting();
   initHeroRotation();
+  initHeroTitleWord();
   initHeaderHeroState();
   initRippleButtons();
   initMobileNav();

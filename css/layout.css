@@ -217,6 +217,15 @@ a.btn-paw {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.38rem;
+}
+
+.btn-paw__icon {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  object-fit: contain;
+  display: block;
 }
 
 .btn-paw {

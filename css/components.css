@@ -4,14 +4,16 @@
 .hero-shell {
   position: relative;
   isolation: isolate;
-  min-height: calc(100dvh + 2rem);
-  min-height: calc(100vh + 2rem);
+  box-sizing: border-box;
+  /* Stable viewport height (no jump when mobile browser chrome shows/hides) */
+  min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   align-items: center;
   margin-top: calc(-1 * var(--site-header-height));
   padding: calc(var(--site-header-height) + clamp(2.5rem, 5vw, 4.5rem)) 0
-    clamp(3rem, 6vw, 5rem);
-  border-radius: 0 0 var(--radius-paw) var(--radius-paw);
+    max(clamp(3rem, 6vw, 5rem), env(safe-area-inset-bottom, 0px));
+  border-radius: 0;
   overflow: hidden;
   /* Dark base behind slides — matches healthcare-ui-3 hero */
   background-color: #0a2f2a;
@@ -102,7 +104,8 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .hero-shell::after {
-    animation: hero-overlay-breathe 20s cubic-bezier(0.42, 0, 0.58, 1) infinite alternate;
+    animation: hero-overlay-breathe 20s cubic-bezier(0.42, 0, 0.58, 1) infinite
+      alternate;
   }
 }
 
@@ -133,7 +136,8 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .hero-shell::before {
-    animation: hero-overlay-breathe 26s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate-reverse;
+    animation: hero-overlay-breathe 26s cubic-bezier(0.45, 0.05, 0.55, 0.95)
+      infinite alternate-reverse;
   }
 }
 
@@ -154,19 +158,24 @@
 .hero-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 3.5rem;
+  gap: clamp(2rem, 5vw, 3.5rem);
   align-items: center;
+  width: 100%;
 }
 
 @media (min-width: 640px) {
   .hero-grid {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
     gap: clamp(2rem, 4vw, 5rem);
+    align-items: center;
   }
 }
 
 .hero-kicker {
-  display: inline-block;
+  --nr: 0deg;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 1.5rem;
@@ -174,10 +183,33 @@
   background: rgba(15, 23, 42, 0.4);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.22);
-  padding: 0.5rem 1.2rem;
+  padding: 0.45rem 0.75rem;
   border-radius: var(--radius-chip);
   margin-bottom: 1.2rem;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  /* Same pop + nudge shake as .hero-gallery-nugget; slight delay so it trails the hero paint */
+  animation: heroNuggetPop 0.92s var(--ease-out) 0.12s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-kicker {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero-kicker__text {
+  line-height: 1.3;
+}
+
+.hero-kicker__icon {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  object-fit: contain;
+  display: block;
 }
 
 .hero-title {
@@ -194,6 +226,47 @@
   color: #99f6e4;
 }
 
+/* Rotating 4-letter headline word — opacity crossfade matches `.hero__bg-layer` */
+.hero-title__flip {
+  display: inline-grid;
+  vertical-align: baseline;
+  /* Exact width set in JS (max word in hero font); fallback until script runs */
+  width: 5.75ch;
+  max-width: 100%;
+  justify-items: stretch;
+  text-align: center;
+  position: relative;
+  box-sizing: content-box;
+}
+
+.hero-title__word-layer {
+  grid-area: 1 / 1;
+  width: 100%;
+  min-width: 0;
+  text-align: center;
+  color: #99f6e4;
+  opacity: 0;
+  transition: opacity 1.75s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-title__word-layer.is-front {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-title__word-layer {
+    transition: none;
+  }
+
+  .hero-title__word-layer:not(.is-front) {
+    display: none;
+  }
+
+  .hero-title__word-layer.is-front {
+    opacity: 1;
+  }
+}
+
 .hero-copy {
   font-size: 1.75rem;
   color: rgba(255, 255, 255, 0.82);
@@ -205,6 +278,36 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1.2rem;
+}
+
+/* Shorter viewports: less vertical padding + slightly smaller type so hero fits one screen */
+@media (min-width: 640px) and (max-height: 880px) {
+  .hero-shell {
+    padding-top: calc(var(--site-header-height) + clamp(1.25rem, 3vh, 2.25rem));
+    padding-bottom: max(
+      clamp(1.25rem, 3vh, 2.25rem),
+      env(safe-area-inset-bottom, 0px)
+    );
+  }
+
+  .hero-kicker {
+    margin-bottom: 0.75rem;
+    font-size: 1.35rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.6rem, 4vw, 4rem);
+    margin-bottom: 1rem;
+  }
+
+  .hero-copy {
+    font-size: clamp(1.45rem, 1.6vw, 1.65rem);
+    margin-bottom: 1.35rem;
+  }
+
+  .hero-cta {
+    gap: 0.85rem;
+  }
 }
 
 /* Ghost CTA on dark hero (healthcare-ui-3 “About us” style) */
@@ -234,19 +337,28 @@
 /* Five floating pet photos — staggered entrance (healthcare-ui-3 style collage) */
 .hero-gallery {
   position: relative;
-  width: 100%;
+  width: min(100%, 88vw);
   max-width: 52rem;
   margin-left: auto;
   margin-right: auto;
-  min-height: 34rem;
   aspect-ratio: 1 / 1.08;
+  /* Height follows width; cap width so laptop grids don’t produce a sky-tall stack */
+  min-height: 0;
 }
 
 @media (min-width: 640px) {
   .hero-gallery {
     margin-right: 0;
+    /* Slightly larger than 52svh cap; still tied to viewport height so laptops don’t overflow */
+    width: min(100%, 57svh, 54rem);
     max-width: none;
-    min-height: 42rem;
+  }
+}
+
+/* Extra-tight laptops (e.g. 1366×768, scaled 1536-width with short chrome) */
+@media (min-width: 640px) and (max-height: 820px) {
+  .hero-gallery {
+    width: min(100%, 50svh, 50rem);
   }
 }
 
@@ -275,57 +387,57 @@
 
 .hero-shot--1 {
   --hi: 0;
-  --rot: -2deg;
-  width: 54%;
-  left: 23%;
-  top: 2%;
-  z-index: 4;
+  --rot: 5deg;
+  width: 72%;
+  left: 7%;
+  top: -20%;
+  z-index: 5;
   aspect-ratio: 5/4;
 }
 
 .hero-shot--2 {
   --hi: 1;
-  --rot: 3deg;
-  width: 35%;
-  left: 0;
-  top: 30%;
-  z-index: 3;
+  --rot: -5deg;
+  width: 55%;
+  left: 17%;
+  top: 27%;
+  z-index: 4;
   aspect-ratio: 1;
 }
 
 .hero-shot--3 {
   --hi: 2;
-  --rot: -4deg;
-  width: 32%;
-  right: 0;
-  top: 18%;
-  z-index: 3;
+  --rot: 4deg;
+  width: 35%;
+  right: -3%;
+  top: 25%;
+  z-index: 5;
   aspect-ratio: 1;
 }
 
 .hero-shot--4 {
   --hi: 3;
   --rot: 2deg;
-  width: 38%;
+  width: 50%;
   left: 4%;
-  bottom: 4%;
-  z-index: 2;
+  bottom: -20%;
+  z-index: 3;
   aspect-ratio: 4/5;
 }
 
 .hero-shot--5 {
   --hi: 4;
-  --rot: -3deg;
-  width: 40%;
-  right: 2%;
-  bottom: 8%;
+  --rot: -7deg;
+  width: 45%;
+  right: 1%;
+  bottom: -1%;
   z-index: 5;
   aspect-ratio: 1;
 }
 
 @media (max-width: 639px) {
   .hero-gallery {
-    min-height: 30rem;
+    width: min(100%, 92vw);
   }
 
   .hero-shot--1 {
@@ -363,46 +475,198 @@
   }
 }
 
-.hero-float-card {
+/*
+ * Hero collage glass nuggets — light glass + .backdrop-xs (tokens.css), teal glow.
+ * Pop in, then a short “nudge shake”. Delays trail in after .hero-shot stagger.
+ */
+.hero-gallery-nugget {
+  --nr: 0deg;
   position: absolute;
-  bottom: 3%;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 6;
-  max-width: 92%;
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(10px);
-  padding: 1rem 1.5rem;
+  z-index: 7;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: min(15rem, 44vw);
+  padding: 0.45rem 0.95rem;
   border-radius: var(--radius-chip);
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 1.35rem;
-  color: var(--color-mint-dark);
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  border: 1px solid rgba(19, 116, 106, 0.12);
-  box-shadow: 0 16px 40px rgba(45, 52, 54, 0.12);
+  font-size: clamp(1.02rem, 1.12vw, 1.28rem);
+  line-height: 1.25;
+  color: rgba(255, 255, 255, 0.97);
+  text-shadow: 0 1px 12px rgba(15, 23, 42, 0.55);
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: linear-gradient(
+    135deg,
+    rgba(19, 116, 106, 0.2) 0%,
+    rgba(19, 116, 106, 0.09) 52%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  box-shadow:
+    0 8px 28px rgba(19, 116, 106, 0.22),
+    0 0 32px rgba(153, 246, 228, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
   opacity: 0;
-  animation: heroFloatCard 0.75s var(--ease-out) 0.8s forwards;
+  animation: heroNuggetPop 0.92s var(--ease-out) forwards;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .hero-float-card {
-    animation: none;
-    opacity: 1;
+/*
+ * <img> SVGs ignore `color` / `fill` from our CSS — recolor to white via filter.
+ */
+.hero-gallery-nugget__icon {
+  width: 2.2rem;
+  height: 2.2rem;
+  flex-shrink: 0;
+  object-fit: contain;
+  filter: brightness(0) invert(1) drop-shadow(0 1px 2px rgba(15, 23, 42, 0.35));
+}
+
+.hero-gallery-nugget__label {
+  min-width: 0;
+}
+
+.hero-gallery-nugget--1 {
+  --nr: -35.5deg;
+  top: -20%;
+  left: 0%;
+  animation-delay: 1s;
+}
+
+.hero-gallery-nugget--2 {
+  --nr: 25.2deg;
+  top: 18%;
+  right: 10%;
+  animation-delay: 1.16s;
+}
+
+.hero-gallery-nugget--3 {
+  --nr: -26.8deg;
+  top: 58%;
+  left: -3%;
+  animation-delay: 1.32s;
+}
+
+.hero-gallery-nugget--4 {
+  --nr: 8.5deg;
+  bottom: -5%;
+  right: -3%;
+  animation-delay: 1.48s;
+}
+
+/* Bottom-left guinea-pig frame (hero-shot--4) */
+.hero-gallery-nugget--5 {
+  --nr: -18deg;
+  bottom: -20%;
+  left: 33%;
+  animation-delay: 1.64s;
+}
+
+@media (max-width: 639px) {
+  .hero-gallery-nugget {
+    max-width: min(11.5rem, 86vw);
+    font-size: 0.98rem;
+    padding: 0.38rem 0.75rem;
+    gap: 0.4rem;
+  }
+
+  .hero-gallery-nugget__icon {
+    width: 1.85rem;
+    height: 1.85rem;
+  }
+
+  .hero-gallery-nugget--1 {
+    top: 1%;
+    left: 2%;
+    animation-delay: 0.92s;
+  }
+
+  .hero-gallery-nugget--2 {
+    top: 1%;
+    right: 2%;
+    left: auto;
+    animation-delay: 1.04s;
+  }
+
+  .hero-gallery-nugget--3 {
+    top: auto;
+    bottom: 38%;
+    left: 2%;
+    animation-delay: 1.16s;
+  }
+
+  .hero-gallery-nugget--4 {
+    bottom: 8%;
+    right: 2%;
+    animation-delay: 1.28s;
+  }
+
+  .hero-gallery-nugget--5 {
+    bottom: 8%;
+    left: 2%;
+    right: auto;
+    animation-delay: 1.4s;
   }
 }
 
-@keyframes heroFloatCard {
+@media (prefers-reduced-motion: reduce) {
+  .hero-gallery-nugget {
+    animation: heroNuggetReduce 0.4s ease forwards;
+  }
+}
+
+@keyframes heroNuggetReduce {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(1rem);
+    transform: translateY(0.35rem) rotate(var(--nr, 0deg));
   }
 
   to {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0) rotate(var(--nr, 0deg));
+  }
+}
+
+@keyframes heroNuggetPop {
+  0% {
+    opacity: 0;
+    transform: translateY(0.85rem) scale(0.88) rotate(var(--nr, 0deg));
+  }
+
+  42% {
+    opacity: 1;
+    transform: translateY(0) scale(1.03) rotate(var(--nr, 0deg));
+  }
+
+  52% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(var(--nr, 0deg));
+  }
+
+  /* Nudge shake */
+  58% {
+    transform: translateY(0) scale(1) rotate(calc(var(--nr, 0deg) + 2.8deg))
+      translateX(4px);
+  }
+
+  66% {
+    transform: translateY(0) scale(1) rotate(calc(var(--nr, 0deg) - 2.2deg))
+      translateX(-3px);
+  }
+
+  74% {
+    transform: translateY(0) scale(1) rotate(calc(var(--nr, 0deg) + 1.6deg))
+      translateX(2px);
+  }
+
+  82% {
+    transform: translateY(0) scale(1) rotate(calc(var(--nr, 0deg) - 1deg))
+      translateX(-1px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(var(--nr, 0deg));
   }
 }
 
@@ -523,7 +787,11 @@
 }
 
 .tab-btn.is-active {
-  background: linear-gradient(135deg, var(--color-peach), var(--color-peach-deep));
+  background: linear-gradient(
+    135deg,
+    var(--color-peach),
+    var(--color-peach-deep)
+  );
   color: var(--color-white);
 }
 
@@ -623,7 +891,11 @@
 
 /* —— Team cards —— */
 .section-team {
-  background: linear-gradient(180deg, rgba(220, 214, 247, 0.35) 0%, var(--color-cream) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(220, 214, 247, 0.35) 0%,
+    var(--color-cream) 100%
+  );
 }
 
 .team-grid {

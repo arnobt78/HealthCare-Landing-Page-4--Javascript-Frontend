@@ -3,16 +3,34 @@
  * Advances on animationend; matches healthcare-ui-3 behavior.
  */
 
-import { IMAGES } from "./data.js";
+import { IMAGES, IMAGE_REMOTE_FALLBACK } from "./data.js";
 
-/** @type {string[][]} */
-const PHOTO_CANDIDATES = [
-  [IMAGES.heroGallery1, IMAGES.dogSmile, IMAGES.hero],
-  [IMAGES.heroGallery2, IMAGES.catHero, IMAGES.hero],
-  [IMAGES.heroGallery3, IMAGES.rabbit, IMAGES.dogSmile],
-  [IMAGES.heroGallery4, IMAGES.dogSmile, IMAGES.hero],
-  [IMAGES.heroGallery5, IMAGES.catHero, IMAGES.hero],
+const HERO_BG_SLIDE_KEYS = [
+  "heroBgDogChewy",
+  "heroBgDogRun",
+  "heroBgDogPortrait",
+  "heroBgCatAlt",
+  "heroBgRabbitAlt",
+  "heroBgFishAlt",
+  "heroBgTurtleOcean",
+  "guineaPig",
+  "heroBgDuck",
+  "heroBgBird",
 ];
+
+/**
+ * Full-bleed hero slides — local file first, then remote mirror, then hero fallbacks.
+ * @type {string[][]}
+ */
+const PHOTO_CANDIDATES = HERO_BG_SLIDE_KEYS.map((k) => {
+  const chain = [
+    IMAGES[k],
+    IMAGE_REMOTE_FALLBACK[k],
+    IMAGES.hero,
+    IMAGE_REMOTE_FALLBACK.hero,
+  ];
+  return [...new Set(chain.filter(Boolean))];
+});
 
 export function initHeroRotation() {
   const hero = document.querySelector("[data-hero]");

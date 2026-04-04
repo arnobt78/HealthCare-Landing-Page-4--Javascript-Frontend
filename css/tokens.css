@@ -1,5 +1,68 @@
 /* Design tokens — pet clinic: soft, friendly, readable. */
-@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&display=swap");
+/* Self-hosted latin woff2 — run: node scripts/download-hero-assets.mjs */
+@font-face {
+  font-family: Fredoka;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/public/fonts/fredoka-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: Fredoka;
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/public/fonts/fredoka-500.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: Fredoka;
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/public/fonts/fredoka-600.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: Fredoka;
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/public/fonts/fredoka-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: Nunito;
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/public/fonts/nunito-400-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/public/fonts/nunito-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/public/fonts/nunito-600.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/public/fonts/nunito-700.woff2") format("woff2");
+}
 
 :root {
   --font-display: "Fredoka", system-ui, sans-serif;
@@ -30,4 +93,10 @@
   --max-w-9xl: 1536px;
   /* Navbar height — hero uses negative margin to sit under transparent bar */
   --site-header-height: 7.2rem;
+}
+
+/* Subtle glass blur (≈ Tailwind blur-xs / light glass) */
+.backdrop-xs {
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
 }
