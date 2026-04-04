@@ -6,11 +6,12 @@
 const STAGGER_MS = 85;
 
 /**
- * Assign --reveal-i to children so CSS transition-delay can stack (optional).
+ * Assign --reveal-i to descendants so CSS transition-delay can stack.
+ * Uses all .reveal under the root (document order) so lists/tables can stagger.
  * @param {Element} root
  */
 function applyStagger(root) {
-  const kids = root.querySelectorAll(":scope > .reveal");
+  const kids = root.querySelectorAll(".reveal");
   kids.forEach((el, i) => {
     el.style.setProperty("--reveal-i", String(i));
   });
@@ -44,7 +45,7 @@ export function initScrollReveal() {
         const target = entry.target;
 
         if (target.hasAttribute("data-reveal-stagger")) {
-          const children = target.querySelectorAll(".reveal");
+          const children = target.querySelectorAll(":scope .reveal");
           children.forEach((child, i) => {
             window.setTimeout(() => {
               child.classList.add("is-visible");

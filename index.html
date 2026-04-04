@@ -360,7 +360,20 @@
       <!-- Stagger container: children get .is-visible one after another in JS -->
       <section class="section-block section-badges" aria-label="Trust badges">
         <div class="max-w-9xl">
-          <h2 class="section-title reveal">Why families trust us</h2>
+          <header class="section-badges__head">
+            <img
+              src="/public/pets-sleeping.svg"
+              alt=""
+              width="64"
+              height="64"
+              class="section-badges__mascot reveal"
+              decoding="async"
+              aria-hidden="true"
+            />
+            <h2 class="section-title section-badges__title reveal">
+              Why families trust us
+            </h2>
+          </header>
           <div class="badge-row" data-reveal-stagger>
             <span class="pet-badge reveal"
               ><i class="fas fa-certificate" aria-hidden="true"></i> Licensed
@@ -382,6 +395,14 @@
               ><i class="fas fa-carrot" aria-hidden="true"></i> Nutrition
               coaching</span
             >
+            <span class="pet-badge reveal"
+              ><i class="fas fa-calendar-check" aria-hidden="true"></i> Easy
+              online scheduling</span
+            >
+            <span class="pet-badge reveal"
+              ><i class="fas fa-file-lines" aria-hidden="true"></i> Plain-language
+              visit notes</span
+            >
           </div>
         </div>
       </section>
@@ -392,11 +413,68 @@
         id="about"
       >
         <div class="max-w-9xl">
-          <h2 class="section-title reveal">Snuggles, science &amp; snacks</h2>
-          <p class="section-lead reveal">
+          <header class="section-about__head reveal">
+            <img
+              src="/public/pets-like.svg"
+              alt=""
+              width="64"
+              height="64"
+              class="section-about__mascot"
+              decoding="async"
+              aria-hidden="true"
+            />
+            <h2 class="section-title section-about__title">
+              Snuggles, science &amp; snacks
+            </h2>
+          </header>
+
+          <div
+            class="about-mini-badges"
+            data-reveal-stagger
+            aria-label="Care highlights"
+          >
+            <span class="about-chip about-chip--mint reveal">
+              <span
+                class="about-chip__icon about-chip__icon--star"
+                aria-hidden="true"
+              ></span>
+              Low-stress wins
+            </span>
+            <span class="about-chip about-chip--peach reveal">
+              <span
+                class="about-chip__icon about-chip__icon--food"
+                aria-hidden="true"
+              ></span>
+              Treat-positive visits
+            </span>
+            <span class="about-chip about-chip--lilac reveal">
+              <span
+                class="about-chip__icon about-chip__icon--healthy"
+                aria-hidden="true"
+              ></span>
+              Prevention-first care
+            </span>
+            <span class="about-chip about-chip--sky reveal">
+              <span
+                class="about-chip__icon about-chip__icon--house"
+                aria-hidden="true"
+              ></span>
+              Calm clinic spaces
+            </span>
+            <span class="about-chip about-chip--butter reveal">
+              <span
+                class="about-chip__icon about-chip__icon--satisfied"
+                aria-hidden="true"
+              ></span>
+              Happy-tail check-ins
+            </span>
+          </div>
+
+          <p class="section-lead section-about__lead reveal">
             Pawfect Care blends modern medicine with low-stress handling — fewer
             white-knuckle car rides, more tail wags at the door.
           </p>
+
           <div class="about-grid">
             <div class="about-visual reveal">
               <img
@@ -407,19 +485,42 @@
                 alt="Veterinarian gently examining a calm dog"
               />
             </div>
-            <div>
-              <p class="reveal">
+            <div class="about-stair" data-reveal-stagger>
+              <p class="reveal about-stair__lead">
                 Our team explains every step in plain language, uses tasty
                 treats as positive reinforcement, and never rushes your
                 questions — whether it is a sneezy kitten or a senior bunny.
               </p>
-              <ul class="about-list">
+              <ul class="about-list about-list--stair">
                 <li class="reveal">
                   Digital records you can read on your phone
                 </li>
-                <li class="reveal">Separate cat &amp; dog waiting zones</li>
+                <li class="reveal">
+                  Separate cat &amp; dog waiting zones
+                </li>
                 <li class="reveal">
                   Post-visit summaries with cute paw-print stickers
+                </li>
+                <li class="reveal">
+                  Text nudges before vaccines &amp; dental days
+                </li>
+                <li class="reveal">
+                  Comfort scoring for seniors (pain watched, not ignored)
+                </li>
+                <li class="reveal">
+                  Photo check-ins when your pet stays for the day
+                </li>
+                <li class="reveal">
+                  Warm towel snuggles after bath &amp; tidy-up grooms
+                </li>
+                <li class="reveal">
+                  Video consults for shy pets who panic in the car
+                </li>
+                <li class="reveal">
+                  Kid-friendly handouts so little humans feel included
+                </li>
+                <li class="reveal">
+                  Payment plans when surprises pop up (we get it)
                 </li>
               </ul>
             </div>
