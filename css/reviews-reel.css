@@ -1,0 +1,361 @@
+/* Pet parent stories — 4-column vertical marquee (js/reviewsReel.js) */
+/* Stays inside .max-w-9xl like other sections (shared horizontal padding). */
+
+.reviews-reel {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/*
+ * Reel height: ~90% of the viewport minus nav + section heading so it doesn’t
+ * read as full-screen. Horizontal frame padding gives side shadows room before
+ * the outer edge.
+ */
+.reviews-reel__frame {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  height: min(
+    calc(90vh - 9rem),
+    calc(90dvh - 9rem),
+    calc(90svh - 9rem),
+    calc(100svh - 13rem)
+  );
+  min-height: 20rem;
+  max-height: calc(100dvh - 5rem);
+  display: flex;
+  flex-direction: column;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin-inline: 0;
+  padding-inline: 0;
+  border-radius: var(--radius-paw);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+/* Wide screens: no horizontal scrollport so side shadows aren’t clipped by frame */
+@media (min-width: 960px) {
+  .reviews-reel__frame {
+    overflow-x: visible;
+  }
+}
+
+.reviews-reel__grid {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+  align-items: stretch;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: visible;
+  /* Stronger top/bottom dissolve into section background */
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.2) 6%,
+    #000 18%,
+    #000 82%,
+    rgba(0, 0, 0, 0.2) 94%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.2) 6%,
+    #000 18%,
+    #000 82%,
+    rgba(0, 0, 0, 0.2) 94%,
+    transparent 100%
+  );
+}
+
+@media (max-width: 899px) {
+  .reviews-reel__grid {
+    grid-template-columns: repeat(4, minmax(11.5rem, 1fr));
+    min-width: min(100%, 52rem);
+  }
+}
+
+/* Later columns paint above earlier — stops a left column’s glow overlapping the next card. */
+.reviews-reel__col:nth-child(1) {
+  z-index: 1;
+}
+.reviews-reel__col:nth-child(2) {
+  z-index: 2;
+}
+.reviews-reel__col:nth-child(3) {
+  z-index: 3;
+}
+.reviews-reel__col:nth-child(4) {
+  z-index: 4;
+}
+
+.reviews-reel__col {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0;
+  overflow: visible;
+}
+
+/* Only this inner layer clips the vertical marquee; outer col stays visible for stacking. */
+.reviews-reel__col-clip {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.reviews-reel__col--static .reviews-reel__col-clip {
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+.reviews-reel__track {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px 0 10px;
+  will-change: transform;
+  animation: reviews-reel-marquee-y
+    calc(var(--reviews-reel-sec, 55) * 1s) linear infinite;
+}
+
+.reviews-reel__col--static .reviews-reel__track {
+  animation: none;
+}
+
+@keyframes reviews-reel-marquee-y {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, -50%, 0);
+  }
+}
+
+/*
+ * Depth: downward-only shadows + negative spread so halos aren’t clipped into
+ * vertical “green lines” at column edges (no filter: drop-shadow).
+ */
+.review-reel-card {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 0;
+  border-radius: var(--radius-paw);
+  background: var(--color-cream);
+  border: 2px solid rgba(94, 201, 181, 0.35);
+  box-shadow:
+    0 10px 26px -12px rgba(19, 116, 106, 0.14),
+    0 4px 14px -6px rgba(17, 118, 110, 0.08);
+  cursor: pointer;
+  transition:
+    transform 0.3s var(--ease-out),
+    box-shadow 0.35s var(--ease-out),
+    border-color 0.3s var(--ease-out);
+}
+
+.review-reel-card:hover {
+  transform: translateY(-6px) rotate(-0.5deg);
+  border-color: var(--color-peach);
+  box-shadow:
+    0 18px 40px -14px rgba(255, 180, 162, 0.2),
+    0 10px 28px -10px rgba(19, 116, 106, 0.12);
+}
+
+.review-reel-card:focus {
+  outline: none;
+}
+
+.review-reel-card:focus-visible {
+  outline: 3px solid var(--color-peach);
+  outline-offset: 3px;
+}
+
+.review-reel-card__pet {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
+  border-radius: calc(var(--radius-paw) - 2px) calc(var(--radius-paw) - 2px) 0 0;
+  background: linear-gradient(
+    160deg,
+    rgba(94, 201, 181, 0.2) 0%,
+    rgba(255, 255, 255, 0.9) 100%
+  );
+}
+
+.review-reel-card__headline {
+  margin: 0;
+  padding: 0.95rem 1.15rem 0.25rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.45rem;
+  color: var(--color-mint-dark);
+  line-height: 1.2;
+}
+
+.review-reel-card__quote {
+  margin: 0;
+  padding: 0 1.15rem 0.65rem;
+  font-size: 1.38rem;
+  line-height: 1.45;
+  color: var(--color-ink);
+}
+
+.review-reel-card__stars {
+  display: flex;
+  gap: 0.2rem;
+  padding: 0 1.15rem 0.5rem;
+  font-size: 1.25rem;
+  color: var(--color-peach-deep);
+}
+
+.review-reel-card__stars .far {
+  color: color-mix(in srgb, var(--color-peach-deep) 38%, var(--color-muted));
+}
+
+.review-reel-card__user {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding: 0.75rem 1.15rem 1.05rem;
+}
+
+.review-reel-card__avatar {
+  width: 2.85rem;
+  height: 2.85rem;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid rgba(94, 201, 181, 0.35);
+}
+
+.review-reel-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.review-reel-card__owner {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.38rem;
+  color: var(--color-mint-dark);
+  line-height: 1.2;
+}
+
+.review-reel-card__profession {
+  font-size: 1.2rem;
+  color: var(--color-muted);
+  line-height: 1.25;
+}
+
+/* —— Review dialog: same footprint as doctor profile (80vw × 80vh) —— */
+.review-modal {
+  width: 80vw;
+  max-width: calc(100vw - 1.5rem);
+  height: 80vh;
+  max-height: calc(100vh - 1.5rem);
+  padding: 0;
+  border: none;
+  border-radius: clamp(1.6rem, 2.4vw, 2.2rem);
+  background: transparent;
+  box-shadow: none;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+.review-modal::backdrop {
+  background: rgba(10, 38, 34, 0.58);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+
+/* Shell / close / body reuse .doctor-modal__* from doctor-reel.css */
+
+.review-modal .doctor-modal__body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.review-modal__stars {
+  display: flex;
+  gap: 0.25rem;
+  font-size: 1.45rem;
+  color: var(--color-peach-deep);
+  margin: 0 0 0.85rem;
+}
+
+.review-modal__stars .far {
+  color: color-mix(in srgb, var(--color-peach-deep) 38%, var(--color-muted));
+}
+
+.review-modal__owner-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 1.15rem;
+  border-top: 1px solid rgba(94, 201, 181, 0.2);
+}
+
+.review-modal__avatar {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid rgba(94, 201, 181, 0.35);
+}
+
+.review-modal__owner-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.review-modal__owner-name {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--color-mint-dark);
+}
+
+.review-modal__owner-role {
+  font-size: 1.35rem;
+  color: var(--color-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reviews-reel__track {
+    animation: none;
+    transform: none;
+  }
+
+  .review-reel-card:hover {
+    transform: none;
+    box-shadow:
+      0 10px 26px -12px rgba(19, 116, 106, 0.14),
+      0 4px 14px -6px rgba(17, 118, 110, 0.08);
+  }
+}

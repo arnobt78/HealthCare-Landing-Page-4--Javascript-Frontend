@@ -15,9 +15,12 @@ import {
   initDropdowns,
   initTabs,
   initFaq,
+  initPlansTableKeyboardScroll,
   initGreeting,
   initHeaderHeroState,
 } from "./ui.js";
+import { initDoctorReel } from "./doctorReel.js";
+import { initReviewsReel } from "./reviewsReel.js";
 
 function boot() {
   applyDynamicImages();
@@ -30,7 +33,10 @@ function boot() {
   initDropdowns();
   initTabs();
   initFaq();
+  initPlansTableKeyboardScroll();
+  initDoctorReel();
   initPetReel();
+  initReviewsReel();
   initScrollReveal();
   initParallax();
   initRouter();

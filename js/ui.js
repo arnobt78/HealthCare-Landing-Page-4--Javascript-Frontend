@@ -4,7 +4,10 @@
 
 import { IMAGES, IMAGE_REMOTE_FALLBACK } from "./data.js";
 import { setAppState } from "./appContext.js";
-import { playStaggerReveal } from "./scrollReveal.js";
+import {
+  REVEAL_STAGGER_MS,
+  revealStaggerChildrenSequential,
+} from "./scrollReveal.js";
 
 /**
  * Apply Unsplash URLs from data.js to elements with data-dynamic-img="key".
@@ -108,14 +111,17 @@ export function initDropdowns() {
 
 /**
  * Tab panels: data-tab-target matches panel id.
- * [data-tabs-carousel] + [data-tab-panels-track]: horizontal slide + optional auto-advance.
+ * [data-tabs-carousel] + .tab-panels-stack: zoom crossfade + optional auto-advance.
  */
 export function initTabs() {
   document.querySelectorAll("[data-tabs]").forEach((root) => {
     const buttons = [...root.querySelectorAll("[data-tab-target]")];
     const panels = [...root.querySelectorAll("[data-tab-panel]")];
-    const track = root.querySelector("[data-tab-panels-track]");
-    const carousel = Boolean(root.hasAttribute("data-tabs-carousel") && track);
+    const viewport = root.querySelector(".tab-panels-viewport");
+    const stack = root.querySelector(".tab-panels-stack");
+    const carousel = Boolean(
+      root.hasAttribute("data-tabs-carousel") && viewport && stack,
+    );
 
     if (!carousel) {
       const activate = (id) => {
@@ -158,6 +164,7 @@ export function initTabs() {
 
     const resumeCarousel = () => {
       if (reduceMotion) return;
+      if (root.getAttribute("data-services-card-intro") !== "done") return;
       pauseCarousel();
       carouselTimer = window.setInterval(() => {
         go(idx + 1);
@@ -179,17 +186,59 @@ export function initTabs() {
       });
     };
 
-    const applyTrack = () => {
-      track.style.transform = `translate3d(-${idx * 100}%, 0, 0)`;
+    const revealActivePanelCards = () => {
+      const panel = panels[idx];
+      const grid = panel.querySelector("[data-reveal-stagger]");
+      const introDone = root.getAttribute("data-services-card-intro") === "done";
+
+      if (!introDone) {
+        panel.querySelectorAll(".service-pill.reveal").forEach((el) => {
+          el.classList.add("is-visible");
+        });
+        return;
+      }
+
+      if (!grid) {
+        panel.querySelectorAll(".service-pill.reveal").forEach((el) => {
+          el.classList.add("is-visible");
+        });
+        return;
+      }
+
+      /*
+       * Tab stack zooms ~580ms; delay nugget keyframes until the panel reads as “in”.
+       * Always replay stagger on tab change so pop + shake run again (hero-style).
+       */
+      panels.forEach((p) => p.style.removeProperty("--services-nugget-base-delay"));
+      panel.style.setProperty("--services-nugget-base-delay", "580ms");
+
+      grid.querySelectorAll(":scope .reveal").forEach((el) => {
+        el.classList.remove("is-visible", "service-pill--shake-phase");
+      });
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          revealStaggerChildrenSequential(grid);
+        });
+      });
     };
 
     const go = (next) => {
       idx = ((next % panels.length) + panels.length) % panels.length;
       syncButtons();
       syncA11y();
-      applyTrack();
-      playStaggerReveal(panels[idx].querySelector("[data-reveal-stagger]"));
+      /* Pre-intro: fill active tab; after intro, stagger first visit per tab so nugget pop+shake runs while visible. */
+      revealActivePanelCards();
     };
+
+    root.addEventListener("pawfect:services-tab", (e) => {
+      const id = e.detail?.id;
+      if (!id || typeof id !== "string") return;
+      const bi = buttons.findIndex((b) => b.getAttribute("data-tab-target") === id);
+      if (bi < 0) return;
+      pauseCarousel();
+      go(bi);
+      resumeCarousel();
+    });
 
     buttons.forEach((btn, bi) => {
       btn.addEventListener("click", () => {
@@ -215,10 +264,105 @@ export function initTabs() {
 
     syncButtons();
     syncA11y();
-    applyTrack();
-    playStaggerReveal(panels[idx].querySelector("[data-reveal-stagger]"));
-    resumeCarousel();
+
+    const finishServicesIntro = () => {
+      root.setAttribute("data-services-card-intro", "done");
+      /*
+       * Do not add is-visible to inactive tab panels here — animations run while
+       * parent opacity is 0, so pop+shake never shows. go() / showActiveTabCardsInstant
+       * reveals pills the first time each tab becomes active (visible).
+       */
+      resumeCarousel();
+    };
+
+    const runServicesScrollIntro = () => {
+      const activeIdx = idx;
+      const grid = panels[activeIdx]?.querySelector("[data-reveal-stagger]");
+      if (!grid) {
+        const fallbackGrid = panels[activeIdx]?.querySelector(".service-mini-grid");
+        if (fallbackGrid) {
+          const fbPills = fallbackGrid.querySelectorAll(":scope .reveal");
+          const n = fbPills.length;
+          revealStaggerChildrenSequential(fallbackGrid);
+          const settleMs = Math.max(0, n - 1) * REVEAL_STAGGER_MS + 720;
+          window.setTimeout(() => finishServicesIntro(), settleMs);
+        } else {
+          panels[activeIdx]
+            ?.querySelectorAll(".service-pill.reveal")
+            .forEach((el) => el.classList.add("is-visible"));
+          finishServicesIntro();
+        }
+        return;
+      }
+
+      const pills = grid.querySelectorAll(":scope .reveal");
+      const anyVisible = [...pills].some((el) => el.classList.contains("is-visible"));
+      if (anyVisible) {
+        finishServicesIntro();
+        return;
+      }
+
+      const n = pills.length;
+      revealStaggerChildrenSequential(grid);
+      const settleMs = Math.max(0, n - 1) * REVEAL_STAGGER_MS + 720;
+      window.setTimeout(() => {
+        finishServicesIntro();
+      }, settleMs);
+    };
+
+    const scrollChrome = root.querySelector(".services-tabs__scroll-chrome");
+
+    if (scrollChrome && !reduceMotion) {
+      scrollChrome.addEventListener("pawfect:services-chrome-visible", (e) => {
+        if (!e.detail?.visible) {
+          root.querySelectorAll(".service-pill.reveal").forEach((el) => {
+            el.classList.remove("is-visible", "service-pill--shake-phase");
+          });
+          return;
+        }
+        window.requestAnimationFrame(() => {
+          if (root.getAttribute("data-services-card-intro") !== "done") {
+            runServicesScrollIntro();
+            return;
+          }
+          revealActivePanelCards();
+        });
+      });
+
+      root.addEventListener("animationend", (e) => {
+        if (e.animationName !== "serviceNuggetEnter") return;
+        const el = e.target;
+        if (!(el instanceof HTMLElement)) return;
+        if (!el.classList.contains("service-pill--nugget")) return;
+        el.classList.add("service-pill--shake-phase");
+      });
+    } else if (reduceMotion) {
+      panels.forEach((p) => {
+        p.querySelectorAll(".service-pill.reveal").forEach((el) => {
+          el.classList.add("is-visible");
+        });
+      });
+      root.setAttribute("data-services-card-intro", "done");
+    }
+
+    if (root.getAttribute("data-services-card-intro") === "done") {
+      resumeCarousel();
+    }
   });
+}
+
+/**
+ * Navbar / in-page links: open Services section tab (matches data-tab-target id).
+ */
+export function requestServicesTab(panelTargetId) {
+  document
+    .querySelector(".services-tabs[data-tabs-carousel]")
+    ?.dispatchEvent(
+      new CustomEvent("pawfect:services-tab", {
+        bubbles: false,
+        detail: { id: panelTargetId },
+      }),
+    );
 }
 
 /**
@@ -234,6 +378,39 @@ export function initFaq() {
       const open = item.classList.toggle("is-open");
       btn.setAttribute("aria-expanded", open ? "true" : "false");
       panel.hidden = !open;
+    });
+  });
+}
+
+/**
+ * Wellness plans table: horizontal scroll via ArrowLeft/ArrowRight (and Home/End) when the region is focused.
+ */
+export function initPlansTableKeyboardScroll() {
+  const reduceMotion =
+    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  document.querySelectorAll(".plans-table-scroll").forEach((node) => {
+    if (!(node instanceof HTMLElement)) return;
+
+    node.addEventListener("keydown", (e) => {
+      if (node.scrollWidth <= node.clientWidth) return;
+
+      const behavior = reduceMotion ? "auto" : "smooth";
+      const step = Math.round(node.clientWidth * 0.35) || 120;
+
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        node.scrollBy({ left: -step, behavior });
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        node.scrollBy({ left: step, behavior });
+      } else if (e.key === "Home") {
+        e.preventDefault();
+        node.scrollTo({ left: 0, behavior });
+      } else if (e.key === "End") {
+        e.preventDefault();
+        node.scrollTo({ left: node.scrollWidth, behavior });
+      }
     });
   });
 }

@@ -3,7 +3,9 @@
  * Uses IntersectionObserver (efficient; runs off the main thread where possible).
  */
 
-const STAGGER_MS = 85;
+export const REVEAL_STAGGER_MS = 85;
+
+const STAGGER_MS = REVEAL_STAGGER_MS;
 
 /**
  * Assign --reveal-i to descendants so CSS transition-delay can stack.
@@ -18,30 +20,25 @@ function applyStagger(root) {
 }
 
 /**
- * Replay one-by-one reveals (e.g. service tab cards). Skipped by initScrollReveal
- * for roots inside [data-tabs-carousel].
+ * Same timing as initScrollReveal on [data-reveal-stagger] (Snuggles chips, etc.).
+ * Used for services tab cards once on scroll — not on every tab change.
  * @param {Element | null} root
  */
-export function playStaggerReveal(root) {
+export function revealStaggerChildrenSequential(root) {
   if (!root) return;
   const prefersReduced =
     window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const children = root.querySelectorAll(":scope .reveal");
   if (!children.length) return;
+  applyStagger(root);
   if (prefersReduced) {
     children.forEach((el) => el.classList.add("is-visible"));
     return;
   }
-  applyStagger(root);
-  children.forEach((el) => el.classList.remove("is-visible"));
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      children.forEach((child, i) => {
-        window.setTimeout(() => {
-          child.classList.add("is-visible");
-        }, i * STAGGER_MS);
-      });
-    });
+  children.forEach((child, i) => {
+    window.setTimeout(() => {
+      child.classList.add("is-visible");
+    }, i * STAGGER_MS);
   });
 }
 
@@ -74,6 +71,32 @@ export function initScrollReveal() {
     return;
   }
 
+  /* Re-run fade/slide when element leaves and re-enters view (e.g. services tab strip). */
+  document.querySelectorAll("[data-reveal-repeat]").forEach((el) => {
+    if (el.closest("[data-reveal-stagger]")) return;
+    const repeatIo = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+          } else {
+            entry.target.classList.remove("is-visible");
+          }
+          if (entry.target.classList.contains("services-tabs__scroll-chrome")) {
+            entry.target.dispatchEvent(
+              new CustomEvent("pawfect:services-chrome-visible", {
+                bubbles: true,
+                detail: { visible: entry.isIntersecting },
+              }),
+            );
+          }
+        }
+      },
+      { root: null, rootMargin: "0px 0px -10% 0px", threshold: 0.12 },
+    );
+    repeatIo.observe(el);
+  });
+
   const observer = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
@@ -103,6 +126,7 @@ export function initScrollReveal() {
   });
   standaloneReveals.forEach((el) => {
     if (el.closest("[data-reveal-stagger]")) return;
+    if (el.hasAttribute("data-reveal-repeat")) return;
     observer.observe(el);
   });
 }

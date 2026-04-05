@@ -55,6 +55,99 @@
   transform: translateY(0) scale(1);
 }
 
+/*
+ * Services cards: first scroll uses global .reveal + 85ms JS stagger (Snuggles-style).
+ * After data-services-card-intro="done", tab changes are slide-only — no re-zoom.
+ */
+.services-tabs[data-services-card-intro="done"] .service-mini-grid .service-pill.reveal {
+  transition: none;
+  transition-delay: 0ms;
+}
+
+/*
+ * Service glass nuggets: enter (pop) then shake-only pass.
+ * Split so global .reveal.is-visible cannot flatten transform during the wiggle;
+ * JS adds .service-pill--shake-phase on animationend (serviceNuggetEnter).
+ */
+@keyframes serviceNuggetEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(0.85rem) scale(0.88) rotate(var(--nr, 0deg));
+  }
+
+  32% {
+    opacity: 1;
+    transform: translateY(0) scale(1.05) rotate(var(--nr, 0deg));
+  }
+
+  42%,
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(var(--nr, 0deg));
+  }
+}
+
+@keyframes serviceNuggetShakeOnly {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(var(--nr, 0deg));
+  }
+
+  14% {
+    transform: translateY(0) scale(1) rotate(calc(var(--nr, 0deg) + 4.5deg))
+      translateX(7px);
+  }
+
+  28% {
+    transform: translateY(0) scale(1) rotate(calc(var(--nr, 0deg) - 3.8deg))
+      translateX(-6px);
+  }
+
+  42% {
+    transform: translateY(0) scale(1) rotate(calc(var(--nr, 0deg) + 2.8deg))
+      translateX(5px);
+  }
+
+  56% {
+    transform: translateY(0) scale(1) rotate(calc(var(--nr, 0deg) - 2deg))
+      translateX(-4px);
+  }
+
+  70% {
+    transform: translateY(0) scale(1) rotate(calc(var(--nr, 0deg) + 1.2deg))
+      translateX(2px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(var(--nr, 0deg));
+  }
+}
+
+.services-tabs .service-mini-grid .service-pill--nugget.reveal {
+  opacity: 0;
+  transform: translateY(0.85rem) scale(0.88) rotate(var(--nr, 0deg));
+  transition: none;
+  animation: none;
+}
+
+.services-tabs .service-mini-grid .service-pill--nugget.reveal.is-visible {
+  opacity: 1;
+  /* Overrides .reveal.is-visible (no tilt); keyframes still drive motion while animations run. */
+  transform: translateY(0) scale(1) rotate(var(--nr, 0deg));
+  animation: serviceNuggetEnter 0.62s var(--ease-out) both;
+  animation-delay: calc(
+    var(--services-nugget-base-delay, 0ms) + var(--reveal-i, 0) * 85ms
+  );
+}
+
+.services-tabs
+  .service-mini-grid
+  .service-pill--nugget.reveal.is-visible.service-pill--shake-phase {
+  animation: serviceNuggetShakeOnly 0.52s var(--ease-out) both;
+  animation-delay: 0ms;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal {
     transition: none;
@@ -67,5 +160,16 @@
   .section-about__lead.reveal {
     transition: none;
     transform: none;
+  }
+
+  .services-tabs .service-mini-grid .service-pill--nugget.reveal {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .services-tabs .service-mini-grid .service-pill--nugget.reveal.is-visible {
+    animation: heroNuggetReduce 0.42s ease forwards;
+    animation-delay: calc(var(--reveal-i, 0) * 55ms);
   }
 }

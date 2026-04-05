@@ -26,6 +26,9 @@ function parseIcons(raw) {
 }
 
 /**
+ * Pause the marquee while the pointer is inside a matching element (e.g. doctor cards).
+ * Uses delegation on the section so dynamically rebuilt cards (team filter) still work.
+ *
  * @param {HTMLElement} reel
  * @param {HTMLElement} track
  */
@@ -36,24 +39,36 @@ function wirePauseOnHover(reel, track) {
   const scope = reel.closest("section");
   if (!scope) return;
 
-  const targets = scope.querySelectorAll(pauseSel);
-  if (!targets.length) return;
-
   let depth = 0;
 
-  const enter = () => {
+  const pause = () => {
     depth += 1;
     if (depth === 1) track.style.animationPlayState = "paused";
   };
 
-  const leave = () => {
+  const resume = () => {
     depth = Math.max(0, depth - 1);
     if (depth === 0) track.style.animationPlayState = "running";
   };
 
-  targets.forEach((el) => {
-    el.addEventListener("mouseenter", enter);
-    el.addEventListener("mouseleave", leave);
+  scope.addEventListener("mouseover", (e) => {
+    const t = e.target;
+    if (!(t instanceof Element)) return;
+    const card = t.closest(pauseSel);
+    if (!card || !scope.contains(card)) return;
+    const from = e.relatedTarget;
+    if (from instanceof Node && card.contains(from)) return;
+    pause();
+  });
+
+  scope.addEventListener("mouseout", (e) => {
+    const t = e.target;
+    if (!(t instanceof Element)) return;
+    const card = t.closest(pauseSel);
+    if (!card || !scope.contains(card)) return;
+    const to = e.relatedTarget;
+    if (to instanceof Node && card.contains(to)) return;
+    resume();
   });
 }
 

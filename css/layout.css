@@ -174,6 +174,18 @@ body.nav-open {
   overflow: hidden;
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 *,
 *::before,
 *::after {
@@ -397,6 +409,52 @@ a.btn-paw {
   font: inherit;
 }
 
+.nav-dd-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  /* Stable width: inline SVG chevron paints with HTML (no FA kit delay). */
+}
+
+.nav-dd-toggle__text {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/*
+ * Fixed box so “Care types” + chevron never jump when fonts/icons load.
+ */
+.nav-dd-toggle__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.2em;
+  height: 1.2em;
+  min-width: 1.2em;
+  min-height: 1.2em;
+  margin-top: 0.08em;
+  opacity: 0.92;
+  color: inherit;
+  transition: transform 0.28s var(--ease-out);
+}
+
+.nav-dd-toggle__chevron {
+  display: block;
+  width: 0.75em;
+  height: 0.5em;
+  flex-shrink: 0;
+}
+
+[data-dropdown].is-open .nav-dd-toggle__icon {
+  transform: rotate(180deg);
+}
+
+.site-header:not(.site-header--on-light) .nav-dd-toggle__icon {
+  filter: drop-shadow(0 1px 3px rgba(45, 52, 54, 0.35));
+}
+
 [data-dropdown-panel] {
   position: absolute;
   top: calc(100% + 0.6rem);
@@ -431,6 +489,27 @@ a.btn-paw {
 [data-dropdown-panel] a:hover {
   background: rgba(255, 180, 162, 0.2);
   color: var(--color-peach-deep);
+}
+
+/*
+ * Hero (transparent header): `.navbar a` is forced white for contrast on the photo.
+ * Dropdown panel uses a white card — without this override, menu links stay white-on-white
+ * and the panel looks like an empty box on first paint / refresh.
+ */
+.site-header:not(.site-header--on-light) [data-dropdown-panel] a {
+  color: var(--color-muted);
+}
+
+.site-header:not(.site-header--on-light) [data-dropdown-panel] a:hover {
+  color: var(--color-peach-deep);
+  background: rgba(255, 180, 162, 0.2);
+}
+
+.site-header:not(.site-header--on-light) [data-dropdown-panel] {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(19, 116, 106, 0.12);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
 }
 
 /* ——— Mobile: full width stack; sm+ desktop nav ——— */

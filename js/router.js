@@ -3,6 +3,8 @@
  * single-page layout. Works with Vercel SPA rewrites so refresh on /about works.
  */
 
+import { requestServicesTab } from "./ui.js";
+
 const SECTION_SELECTOR = "[data-section-id]";
 
 /**
@@ -51,6 +53,10 @@ export function initRouter() {
       e.preventDefault();
       const id = pathToSectionId(href);
       navigateToSection(id);
+      if (id === "services") {
+        const tab = anchor.getAttribute("data-services-tab");
+        if (tab) requestServicesTab(tab);
+      }
     });
   });
 

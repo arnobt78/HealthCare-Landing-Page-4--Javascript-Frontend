@@ -998,7 +998,10 @@
   background: transparent;
 }
 
-.section-services__head {
+.section-services__head,
+.section-plans__head,
+.section-team__head,
+.section-reviews__head {
   display: flex;
   align-items: center;
   gap: clamp(1rem, 3vw, 2rem);
@@ -1014,20 +1017,29 @@
   filter: drop-shadow(0 6px 14px rgba(17, 118, 110, 0.2));
 }
 
-.section-services__title {
+.section-services__title,
+.section-plans__title,
+.section-team__title,
+.section-reviews__title {
   margin: 0;
 }
 
-.services-mini-badges {
+.services-mini-badges,
+.plans-mini-badges,
+.team-mini-badges,
+.stories-mini-badges {
   margin-bottom: 1.75rem;
 }
 
-.section-services__lead {
+.section-services__lead,
+.section-plans__lead,
+.section-reviews__lead {
   margin-top: 0;
   margin-bottom: 2rem;
 }
 
 .services-tabs {
+  --services-nugget-base-delay: 0ms;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -1082,46 +1094,70 @@
   display: block;
 }
 
-/* Carousel: tabs sit above glow; viewport carries shadow like about photo */
+/* Carousel: outer viewport is layout-only (transparent) so cards read on section bg */
 .tab-panels-shell {
   width: 100%;
 }
 
 .tab-panels-viewport {
-  overflow: hidden;
+  /* visible so service card box-shadows / glows aren’t clipped at the edges */
+  overflow: visible;
   width: 100%;
   border-radius: var(--radius-paw);
-  border: 3px solid rgba(255, 234, 167, 0.5);
-  background: var(--color-white);
-  box-shadow:
-    0 28px 64px rgba(19, 116, 106, 0.22),
-    0 0 0 1px rgba(255, 255, 255, 0.35),
-    0 0 56px rgba(94, 201, 181, 0.2),
-    0 0 44px rgba(255, 180, 162, 0.16);
+  border: none;
+  background: transparent;
+  box-shadow: none;
 }
 
-.tab-panels-track {
-  display: flex;
-  width: 100%;
-  transition: transform 0.55s var(--ease-out);
-  will-change: transform;
+/* Stacked panels: zoom + crossfade on auto tab change (not horizontal reel) */
+.tab-panels-stack {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .tab-panels-track {
-    transition: none;
-  }
-}
-
-[data-tabs-carousel] .tab-panel {
-  flex: 0 0 100%;
+.tab-panels-stack > .tab-panel {
+  grid-area: 1 / 1;
   min-width: 0;
   box-sizing: border-box;
   padding: 2.4rem;
   margin: 0;
-  background: var(--color-white);
+  background: transparent;
   border-radius: 0;
   box-shadow: none;
+  opacity: 0;
+  transform: scale(0.93);
+  pointer-events: none;
+  /* Matched in JS (--services-nugget-base-delay) so card pop+shake follows panel zoom */
+  transition:
+    opacity 0.58s cubic-bezier(0.45, 0, 0.2, 1),
+    transform 0.58s cubic-bezier(0.45, 0, 0.2, 1);
+  z-index: 0;
+}
+
+.tab-panels-stack > .tab-panel.is-active {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab-panels-stack > .tab-panel {
+    transition: none;
+    transform: none;
+  }
+
+  .tab-panels-stack > .tab-panel:not(.is-active) {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .tab-panels-stack > .tab-panel.is-active {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
 .service-mini-grid {
@@ -1143,6 +1179,42 @@
   border-radius: 1.4rem;
   background: var(--color-cream);
   border: 1px solid rgba(94, 201, 181, 0.25);
+}
+
+/* Hero collage nugget look: teal glass + glow + slight tilt (--nr); shake via heroNuggetPop in animations.css */
+.service-pill--nugget {
+  --nr: 0deg;
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  background: linear-gradient(
+    135deg,
+    rgba(19, 116, 106, 0.16) 0%,
+    rgba(19, 116, 106, 0.07) 46%,
+    rgba(255, 255, 255, 0.62) 100%
+  );
+  box-shadow:
+    0 10px 34px rgba(19, 116, 106, 0.2),
+    0 0 38px rgba(153, 246, 228, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.52);
+}
+
+.service-pill--nugget i {
+  filter: drop-shadow(0 1px 2px rgba(17, 118, 110, 0.2));
+}
+
+.service-pill--nugget-1 {
+  --nr: -3.5deg;
+}
+
+.service-pill--nugget-2 {
+  --nr: 2.8deg;
+}
+
+.service-pill--nugget-3 {
+  --nr: -2.4deg;
+}
+
+.service-pill--nugget-4 {
+  --nr: 1.7deg;
 }
 
 .service-pill i {
@@ -1167,15 +1239,37 @@
   background: transparent;
 }
 
-.plans-table-wrap {
-  overflow-x: auto;
+/* Outer shell: glow is not clipped; inner div scrolls with scrollbar hidden */
+.plans-table-shell {
+  overflow: visible;
   border-radius: var(--radius-paw);
-  box-shadow: var(--shadow-soft);
+  padding: clamp(0.6rem, 1.5vw, 1rem);
+  box-shadow:
+    0 28px 64px rgba(19, 116, 106, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.4),
+    0 0 52px rgba(94, 201, 181, 0.18),
+    0 0 40px rgba(255, 180, 162, 0.12);
+}
+
+.plans-table-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-radius: calc(var(--radius-paw) - 2px);
+  background: var(--color-white);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.plans-table-scroll::-webkit-scrollbar {
+  display: none;
+  height: 0;
 }
 
 .plans-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   font-size: 1.5rem;
   min-width: 48rem;
 }
@@ -1193,6 +1287,22 @@
   font-family: var(--font-display);
 }
 
+.plans-table thead th:first-child {
+  border-top-left-radius: calc(var(--radius-paw) - 2px);
+}
+
+.plans-table thead th:last-child {
+  border-top-right-radius: calc(var(--radius-paw) - 2px);
+}
+
+.plans-table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: calc(var(--radius-paw) - 2px);
+}
+
+.plans-table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: calc(var(--radius-paw) - 2px);
+}
+
 .plans-table tbody tr:hover {
   background: rgba(255, 234, 167, 0.2);
 }
@@ -1200,6 +1310,20 @@
 .plan-price {
   font-weight: 700;
   color: var(--color-peach-deep);
+}
+
+.plan-popular-badge {
+  display: inline-block;
+  margin-left: 0.55rem;
+  padding: 0.2rem 0.65rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  font-family: var(--font-display);
+  color: var(--color-mint-dark);
+  background: rgba(94, 201, 181, 0.22);
+  border-radius: var(--radius-chip);
+  vertical-align: middle;
+  white-space: nowrap;
 }
 
 /* —— Team cards —— */
