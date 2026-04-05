@@ -1,6 +1,10 @@
 /**
  * Copies static assets into dist/ for Vercel (see docs/VERCEL-PLAIN-JS-DEPLOY.md).
  * Run: node scripts/copy-static.mjs
+ *
+ * Walkthrough: there is no bundler — we copy `index.html`, `style.css`, `js/`, `css/`, and
+ * `public/` verbatim so import maps in the browser still resolve (`/js/main.js`, `/css/...`).
+ * Optional `script.js` in root is legacy; if present it is copied too.
  */
 import fs from "fs";
 import path from "path";
@@ -18,6 +22,7 @@ for (const f of rootFiles) {
   if (fs.existsSync(src)) fs.copyFileSync(src, path.join(dist, f));
 }
 
+/** Recursive directory copy (Node fs) — preserves nested folders like public/hero. */
 function copyDir(src, dest) {
   if (!fs.existsSync(src)) return;
   fs.mkdirSync(dest, { recursive: true });

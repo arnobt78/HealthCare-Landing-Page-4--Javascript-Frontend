@@ -1,5 +1,8 @@
 /**
  * Crossfades the hero headline emphasis word (same easing/duration as hero bg layers).
+ *
+ * Two stacked `.hero-title__word-layer` elements swap “front” class so one word
+ * fades out while the next fades in — no duplicate text in the accessibility tree for the hidden layer.
  */
 
 const WORDS = ["love", "care", "cute", "kind", "dear", "calm", "warm", "best"];
@@ -64,6 +67,7 @@ export function initHeroTitleWord() {
     wi = (wi + 1) % WORDS.length;
     const nextWord = WORDS[wi];
     hidden.textContent = nextWord;
+    /* Promote the off-screen layer: it becomes visible; old front gets aria-hidden. */
     hidden.classList.add("is-front");
     hidden.removeAttribute("aria-hidden");
     visible.classList.remove("is-front");

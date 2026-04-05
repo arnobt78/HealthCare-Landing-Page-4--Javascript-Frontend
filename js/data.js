@@ -1,7 +1,15 @@
 /**
- * Central place for copy and image URLs.
+ * Central place for copy and image URLs (static “CMS” for this demo).
+ *
+ * What lives here (read top-to-bottom when learning the app):
+ * - `SITE` — brand strings used in greetings / titles.
+ * - `IMAGE_REMOTE_FALLBACK` — remote mirrors for hero/team when local `/public` files 404.
+ * - `IMAGES` — primary paths/URLs keyed for `data-dynamic-img` and JS modules.
+ * - `TEAM_MEMBERS` — doctor cards + modal content for doctorReel.js.
+ * - `PARENT_REVIEWS` — story cards + modal quotes for reviewsReel.js.
+ *
+ * There is no fetch() to a JSON API: modules import these exports directly.
  * Hero collage + full-bleed slides use files under /public/hero/ (see scripts/download-hero-assets.mjs).
- * IMAGE_REMOTE_FALLBACK is used when a local file 404s (e.g. forgot to run download script).
  */
 
 export const SITE = {
@@ -9,7 +17,7 @@ export const SITE = {
   tagline: "Happy pets, caring hands",
 };
 
-/** Remote URLs keyed like IMAGES (for <img> error recovery). */
+/** Remote URLs keyed like IMAGES (for `<img>` error recovery in bindTeamImg / bindImg / hero). */
 export const IMAGE_REMOTE_FALLBACK = {
   heroGallery1:
     "https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=800&q=85",

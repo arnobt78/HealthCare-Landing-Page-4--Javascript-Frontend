@@ -1,6 +1,9 @@
 /**
  * Two-layer hero background rotation + Ken Burns (docs/HERO_ROTATING_BACKGROUND_SPEC.md).
  * Advances on animationend; matches healthcare-ui-3 behavior.
+ *
+ * Why two DOM layers (a/b)? While one layer’s CSS animation runs, the other can preload
+ * the next image, then swap `.hero__bg-layer--active` for a seamless crossfade.
  */
 
 import { IMAGES, IMAGE_REMOTE_FALLBACK } from "./data.js";
@@ -44,6 +47,7 @@ export function initHeroRotation() {
   const a = /** @type {HTMLElement} */ (layers[0]);
   const b = /** @type {HTMLElement} */ (layers[1]);
 
+  /* Warm browser cache for likely URLs (best-effort; failures ignored). */
   PHOTO_CANDIDATES.flat().forEach((url) => {
     const img = new Image();
     img.src = url;
@@ -113,7 +117,7 @@ export function initHeroRotation() {
     nextLayer.style.backgroundImage = `url("${url}")`;
     curLayer.classList.remove("hero__bg-layer--active");
     nextLayer.classList.remove("hero__bg-layer--active");
-    void nextLayer.offsetWidth;
+    void nextLayer.offsetWidth; /* reflow: restart CSS animation on the newly active layer */
     nextLayer.classList.add("hero__bg-layer--active");
 
     active = active === 0 ? 1 : 0;

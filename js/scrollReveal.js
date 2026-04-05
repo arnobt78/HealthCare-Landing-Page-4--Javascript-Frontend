@@ -1,6 +1,10 @@
 /**
  * Scroll-triggered animations with optional stagger (one-by-one reveals).
  * Uses IntersectionObserver (efficient; runs off the main thread where possible).
+ *
+ * Contract: elements use class `.reveal`; CSS defines hidden vs `.is-visible` states.
+ * `[data-reveal-stagger]` on a parent means children reveal sequentially (timeouts).
+ * `[data-reveal-repeat]` removes `.is-visible` when off-screen so animations can replay.
  */
 
 export const REVEAL_STAGGER_MS = 85;
@@ -27,7 +31,8 @@ function applyStagger(root) {
 export function revealStaggerChildrenSequential(root) {
   if (!root) return;
   const prefersReduced =
-    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const children = root.querySelectorAll(":scope .reveal");
   if (!children.length) return;
   applyStagger(root);
@@ -53,17 +58,20 @@ export function initScrollReveal() {
   });
 
   const standaloneReveals = document.querySelectorAll(".reveal");
-  const staggerRoots = [...document.querySelectorAll("[data-reveal-stagger]")].filter(
-    (el) => !el.closest("[data-tabs-carousel]"),
-  );
+  const staggerRoots = [
+    ...document.querySelectorAll("[data-reveal-stagger]"),
+  ].filter((el) => !el.closest("[data-tabs-carousel]"));
 
   const prefersReduced =
-    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if (prefersReduced) {
     standaloneReveals.forEach((el) => el.classList.add("is-visible"));
     staggerRoots.forEach((root) => {
-      root.querySelectorAll(".reveal").forEach((el) => el.classList.add("is-visible"));
+      root
+        .querySelectorAll(".reveal")
+        .forEach((el) => el.classList.add("is-visible"));
     });
     document
       .querySelectorAll("[data-tabs-carousel] [data-reveal-stagger] .reveal")
@@ -110,12 +118,12 @@ export function initScrollReveal() {
               child.classList.add("is-visible");
             }, i * STAGGER_MS);
           });
-          observer.unobserve(target);
+          observer.unobserve(target); /* parent stagger fires once */
           continue;
         }
 
         target.classList.add("is-visible");
-        observer.unobserve(target);
+        observer.unobserve(target); /* one-shot reveal saves work once element has appeared */
       }
     },
     { root: null, rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
@@ -156,6 +164,6 @@ export function initParallax() {
     });
   };
 
-  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("scroll", onScroll, { passive: true }); /* passive: scroll never blocked */
   onScroll();
 }

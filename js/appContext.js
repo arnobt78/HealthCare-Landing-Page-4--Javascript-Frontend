@@ -3,6 +3,9 @@
  * Subscribers run whenever state changes — useful for theme toggles or nav UI.
  *
  * This is NOT React; there are no hooks here. We use a simple store + listeners.
+ *
+ * Educational note: today `initGreeting` only patches `lastSection`; you could add
+ * `subscribe()` in a new module to react to global UI state without prop-drilling.
  */
 
 /** @type {{ theme: string, lastSection: string }} */

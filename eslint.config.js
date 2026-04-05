@@ -5,6 +5,8 @@ import globals from "globals";
  * ESLint flat config for browser ES modules (no bundler).
  * Educational note: `languageOptions.globals` tells ESLint that `document`,
  * `window`, etc. exist at runtime in the browser.
+ *
+ * Second block: Node globals for this config file and `scripts/*.mjs` (fs, path, process).
  */
 export default [
   js.configs.recommended,

@@ -1,24 +1,84 @@
 <!doctype html>
 <html lang="en" data-scroll-behavior="smooth">
   <head>
+    <!--
+      SEO + social: meta/OG/Twitter/JSON-LD for crawlers; no server rendering.
+      Runtime “API”: none — URLs and copy are static. Update canonical + og:url if you change domain.
+    -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
       Pawfect Care Clinic — Friendly veterinary care for dogs, cats &amp; more
+      | Pets healthcare landing (vanilla JS demo)
     </title>
     <meta
       name="description"
-      content="Pawfect Care Clinic offers gentle checkups, emergency support, grooming tips, and wellness plans for your pets. Book a visit today."
+      content="Pawfect Care Clinic demo: gentle nose-to-tail checkups, wellness plans, team profiles, services, FAQs, and stories — a responsive, framework-free veterinary landing experience."
     />
-    <meta property="og:title" content="Pawfect Care Clinic" />
+    <meta
+      name="keywords"
+      content="Pawfect Care, veterinary clinic, pet healthcare, dog care, cat care, wellness plans, animal hospital, vanilla JavaScript, HTML5, CSS3, static SPA, responsive web design, Arnob Mahmud"
+    />
+    <meta name="author" content="Arnob Mahmud" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#13746a" />
+    <link rel="canonical" href="https://pets-healthcare.vercel.app/" />
+    <link rel="author" href="https://www.arnobmahmud.com" />
+    <link rel="me" href="mailto:contact@arnobmahmud.com" />
+
+    <meta property="og:title" content="Pawfect Care Clinic — Veterinary care for dogs, cats &amp; more" />
     <meta
       property="og:description"
-      content="Modern, kind veterinary care — tails wag, purrs guaranteed (almost)."
+      content="Modern, kind veterinary care demo — services, team, wellness plans, and pet parent stories. Built with vanilla JS as a learning showcase."
     />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://pets-healthcare.vercel.app/" />
+    <meta
+      property="og:image"
+      content="https://pets-healthcare.vercel.app/public/logo.png"
+    />
+    <meta property="og:image:alt" content="Pawfect Care Clinic logo" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Pawfect Care Clinic" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Pawfect Care Clinic — Pets healthcare landing demo"
+    />
+    <meta
+      name="twitter:description"
+      content="Friendly veterinary care for dogs, cats &amp; more. Responsive vanilla JS / HTML5 / CSS3 showcase."
+    />
+    <meta
+      name="twitter:image"
+      content="https://pets-healthcare.vercel.app/public/logo.png"
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Pawfect Care Clinic — Friendly veterinary care for dogs, cats & more",
+        "url": "https://pets-healthcare.vercel.app/",
+        "description": "Pawfect Care Clinic demo: veterinary landing page with services, team, plans, FAQ, and stories — framework-free SPA.",
+        "inLanguage": "en",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "Pawfect Care Clinic",
+          "url": "https://pets-healthcare.vercel.app/"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Arnob Mahmud",
+          "url": "https://www.arnobmahmud.com",
+          "email": "contact@arnobmahmud.com"
+        }
+      }
+    </script>
 
     <link rel="icon" href="/public/favicon.ico" type="image/x-icon" />
-    <link rel="apple-touch-icon" href="/public/favicon.ico" />
+    <link rel="apple-touch-icon" href="/public/logo.png" />
 
     <link
       rel="preload"
@@ -40,7 +100,6 @@
     <link rel="preload" href="/public/hero/collage-hamster.jpg" as="image" />
     <link rel="preload" href="/public/hero/bg-dog-run.jpg" as="image" />
     <link rel="preload" href="/public/hero/bg-dog-chewy.jpg" as="image" />
-    <link rel="preload" href="/public/hero/bg-dog-run.jpg" as="image" />
 
     <script
       src="https://kit.fontawesome.com/c1df782baf.js"
@@ -156,6 +215,11 @@
     </header>
 
     <main>
+      <!--
+        Page map (client-side routes → scroll targets via js/router.js):
+        home, about, services, plans, team, stories, faq, contact — each uses data-section-id.
+        Pre-footer commitment banner is decorative CTA only (no separate route).
+      -->
       <!-- Hero: data-section-id matches the router (path / → home) -->
       <section
         class="hero-shell"
@@ -452,6 +516,7 @@
         </div>
       </section>
 
+      <!-- About: route /about — brand story, imagery, trust chips -->
       <section
         class="section-block section-about"
         data-section-id="about"
@@ -573,6 +638,7 @@
         </div>
       </section>
 
+      <!-- Services: route /services — tab carousel + species panels (js/ui.js initTabs) -->
       <section
         class="section-block section-services"
         data-section-id="services"
@@ -880,6 +946,7 @@
         </div>
       </section>
 
+      <!-- Plans: route /plans — comparison table; keyboard scroll helper in js/ui.js -->
       <section
         class="section-block section-plans"
         data-section-id="plans"
@@ -991,6 +1058,7 @@
         </div>
       </section>
 
+      <!-- Team: route /team — filter + reel hydrated by js/doctorReel.js; modal #doctor-detail-dialog -->
       <section
         class="section-block section-team"
         data-section-id="team"
@@ -1096,6 +1164,7 @@
         </div>
       </section>
 
+      <!-- Stories: route /stories — 4-col reel from js/reviewsReel.js + #review-detail-dialog -->
       <section
         class="section-block section-reviews"
         data-section-id="stories"
@@ -1170,63 +1239,449 @@
         </div>
       </section>
 
+      <!-- FAQ: route /faq — accordion toggles wired by js/ui.js initFaq -->
       <section class="section-block section-faq" data-section-id="faq" id="faq">
         <div class="max-w-9xl">
-          <h2 class="section-title reveal">FAQ — frequently asked cuddles</h2>
-          <p class="section-lead reveal">
-            Tap a question — this is a vanilla JS accordion (no libraries).
-          </p>
-          <div class="faq-list">
-            <div class="faq-item reveal" data-faq-item>
-              <button
-                type="button"
-                class="faq-toggle"
-                data-faq-toggle
-                aria-expanded="false"
+          <div class="section-faq__shell">
+            <div class="section-faq__intro">
+              <header class="section-faq__head reveal">
+                <img
+                  src="/public/pets-healthy.svg"
+                  alt=""
+                  width="64"
+                  height="64"
+                  class="section-services__mascot"
+                  decoding="async"
+                  aria-hidden="true"
+                />
+                <h2 class="section-title section-faq__title">
+                  FAQ — frequently asked cuddles
+                </h2>
+              </header>
+
+              <div
+                class="about-mini-badges faq-mini-badges"
+                data-reveal-stagger
+                aria-label="Quick facts about visits"
               >
-                Do you see exotic pets?
-                <i class="fas fa-chevron-down" aria-hidden="true"></i>
-              </button>
-              <div class="faq-panel" data-faq-panel hidden>
-                Yes — rabbits, guinea pigs, and select birds by appointment.
-                Reptiles get a referral to our partner herp clinic down the
-                road.
+                <span class="about-chip about-chip--mint reveal">
+                  <span
+                    class="about-chip__icon about-chip__icon--healthy"
+                    aria-hidden="true"
+                  ></span>
+                  Straight answers
+                </span>
+                <span class="about-chip about-chip--peach reveal">
+                  <span
+                    class="about-chip__icon about-chip__icon--star"
+                    aria-hidden="true"
+                  ></span>
+                  Zero jargon
+                </span>
+                <span class="about-chip about-chip--lilac reveal">
+                  <span
+                    class="about-chip__icon about-chip__icon--house"
+                    aria-hidden="true"
+                  ></span>
+                  Fear-free first
+                </span>
+                <span class="about-chip about-chip--sky reveal">
+                  <span
+                    class="about-chip__icon about-chip__icon--food"
+                    aria-hidden="true"
+                  ></span>
+                  Same-day when we can
+                </span>
               </div>
+
+              <p class="section-lead section-faq__lead reveal">
+                Curious tails, covered. Tap any question for the cozy truth about
+                visits, booking, and how we keep nervous pets (and humans) calm.
+              </p>
             </div>
-            <div class="faq-item reveal" data-faq-item>
-              <button
-                type="button"
-                class="faq-toggle"
-                data-faq-toggle
-                aria-expanded="false"
-              >
-                Can I stay with my pet?
-                <i class="fas fa-chevron-down" aria-hidden="true"></i>
-              </button>
-              <div class="faq-panel" data-faq-panel hidden>
-                For many exams, absolutely. Some procedures need a sterile space
-                — we will tell you before you even put on the hairnet.
-              </div>
-            </div>
-            <div class="faq-item reveal" data-faq-item>
-              <button
-                type="button"
-                class="faq-toggle"
-                data-faq-toggle
-                aria-expanded="false"
-              >
-                How do I book?
-                <i class="fas fa-chevron-down" aria-hidden="true"></i>
-              </button>
-              <div class="faq-panel" data-faq-panel hidden>
-                Use the big friendly button, call us, or send a raven (email
-                works faster).
+
+            <div
+              class="section-faq__accordion"
+              role="region"
+              aria-label="Common questions"
+            >
+              <div class="faq-list">
+                <div
+                  class="faq-item reveal"
+                  data-faq-item
+                  data-reveal-repeat
+                >
+                  <button
+                    type="button"
+                    class="faq-toggle"
+                    id="faq-trigger-exotic"
+                    data-faq-toggle
+                    aria-expanded="false"
+                    aria-controls="faq-panel-exotic"
+                  >
+                    Do you see exotic pets?
+                    <span class="faq-toggle__icon" aria-hidden="true">
+                      <i class="fas fa-paw"></i>
+                    </span>
+                  </button>
+                  <div
+                    class="faq-panel-shell"
+                    data-faq-panel-shell
+                    aria-hidden="true"
+                  >
+                    <div class="faq-panel-flow">
+                      <div
+                        class="faq-panel"
+                        id="faq-panel-exotic"
+                        data-faq-panel
+                        role="region"
+                        aria-labelledby="faq-trigger-exotic"
+                      >
+                        Yes — rabbits, guinea pigs, and select birds by
+                        appointment. Reptiles get a referral to our partner herp
+                        clinic down the road.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="faq-item reveal"
+                  data-faq-item
+                  data-reveal-repeat
+                >
+                  <button
+                    type="button"
+                    class="faq-toggle"
+                    id="faq-trigger-stay"
+                    data-faq-toggle
+                    aria-expanded="false"
+                    aria-controls="faq-panel-stay"
+                  >
+                    Can I stay with my pet?
+                    <span class="faq-toggle__icon" aria-hidden="true">
+                      <i class="fas fa-paw"></i>
+                    </span>
+                  </button>
+                  <div
+                    class="faq-panel-shell"
+                    data-faq-panel-shell
+                    aria-hidden="true"
+                  >
+                    <div class="faq-panel-flow">
+                      <div
+                        class="faq-panel"
+                        id="faq-panel-stay"
+                        data-faq-panel
+                        role="region"
+                        aria-labelledby="faq-trigger-stay"
+                      >
+                        For many exams, absolutely. Some procedures need a
+                        sterile space — we will tell you before you even put on
+                        the hairnet.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="faq-item reveal"
+                  data-faq-item
+                  data-reveal-repeat
+                >
+                  <button
+                    type="button"
+                    class="faq-toggle"
+                    id="faq-trigger-book"
+                    data-faq-toggle
+                    aria-expanded="false"
+                    aria-controls="faq-panel-book"
+                  >
+                    How do I book?
+                    <span class="faq-toggle__icon" aria-hidden="true">
+                      <i class="fas fa-paw"></i>
+                    </span>
+                  </button>
+                  <div
+                    class="faq-panel-shell"
+                    data-faq-panel-shell
+                    aria-hidden="true"
+                  >
+                    <div class="faq-panel-flow">
+                      <div
+                        class="faq-panel"
+                        id="faq-panel-book"
+                        data-faq-panel
+                        role="region"
+                        aria-labelledby="faq-trigger-book"
+                      >
+                        Use the big friendly “Book a visit” button up top, call
+                        us, or email — we usually reply the same day with a few
+                        time options.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="faq-item reveal"
+                  data-faq-item
+                  data-reveal-repeat
+                >
+                  <button
+                    type="button"
+                    class="faq-toggle"
+                    id="faq-trigger-puppy"
+                    data-faq-toggle
+                    aria-expanded="false"
+                    aria-controls="faq-panel-puppy"
+                  >
+                    What vaccines does my new puppy need?
+                    <span class="faq-toggle__icon" aria-hidden="true">
+                      <i class="fas fa-paw"></i>
+                    </span>
+                  </button>
+                  <div
+                    class="faq-panel-shell"
+                    data-faq-panel-shell
+                    aria-hidden="true"
+                  >
+                    <div class="faq-panel-flow">
+                      <div
+                        class="faq-panel"
+                        id="faq-panel-puppy"
+                        data-faq-panel
+                        role="region"
+                        aria-labelledby="faq-trigger-puppy"
+                      >
+                        Core puppy shots follow a schedule we tailor to lifestyle
+                        and local risk. At your first visit we map dates, send
+                        reminders, and celebrate every tiny milestone.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="faq-item reveal"
+                  data-faq-item
+                  data-reveal-repeat
+                >
+                  <button
+                    type="button"
+                    class="faq-toggle"
+                    id="faq-trigger-urgent"
+                    data-faq-toggle
+                    aria-expanded="false"
+                    aria-controls="faq-panel-urgent"
+                  >
+                    Do you offer same-day urgent visits?
+                    <span class="faq-toggle__icon" aria-hidden="true">
+                      <i class="fas fa-paw"></i>
+                    </span>
+                  </button>
+                  <div
+                    class="faq-panel-shell"
+                    data-faq-panel-shell
+                    aria-hidden="true"
+                  >
+                    <div class="faq-panel-flow">
+                      <div
+                        class="faq-panel"
+                        id="faq-panel-urgent"
+                        data-faq-panel
+                        role="region"
+                        aria-labelledby="faq-trigger-urgent"
+                      >
+                        We hold same-day slots for urgent (not life-threatening)
+                        issues. Call early; if we are full we will point you to
+                        trusted emergency partners and follow up the next day.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="faq-item reveal"
+                  data-faq-item
+                  data-reveal-repeat
+                >
+                  <button
+                    type="button"
+                    class="faq-toggle"
+                    id="faq-trigger-senior"
+                    data-faq-toggle
+                    aria-expanded="false"
+                    aria-controls="faq-panel-senior"
+                  >
+                    Are wellness plans worth it for a senior cat?
+                    <span class="faq-toggle__icon" aria-hidden="true">
+                      <i class="fas fa-paw"></i>
+                    </span>
+                  </button>
+                  <div
+                    class="faq-panel-shell"
+                    data-faq-panel-shell
+                    aria-hidden="true"
+                  >
+                    <div class="faq-panel-flow">
+                      <div
+                        class="faq-panel"
+                        id="faq-panel-senior"
+                        data-faq-panel
+                        role="region"
+                        aria-labelledby="faq-trigger-senior"
+                      >
+                        Often yes — predictable labs, dentals, and check-ins catch
+                        slow changes early. We will only recommend a plan if the
+                        math actually helps your couch potato.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="faq-item reveal"
+                  data-faq-item
+                  data-reveal-repeat
+                >
+                  <button
+                    type="button"
+                    class="faq-toggle"
+                    id="faq-trigger-carrier"
+                    data-faq-toggle
+                    aria-expanded="false"
+                    aria-controls="faq-panel-carrier"
+                  >
+                    My pet hates the carrier — any tips before we visit?
+                    <span class="faq-toggle__icon" aria-hidden="true">
+                      <i class="fas fa-paw"></i>
+                    </span>
+                  </button>
+                  <div
+                    class="faq-panel-shell"
+                    data-faq-panel-shell
+                    aria-hidden="true"
+                  >
+                    <div class="faq-panel-flow">
+                      <div
+                        class="faq-panel"
+                        id="faq-panel-carrier"
+                        data-faq-panel
+                        role="region"
+                        aria-labelledby="faq-trigger-carrier"
+                      >
+                        Leave it out as a nap cave, toss treats inside, and try
+                        short practice rides. Tell us if they panic — we have
+                        pre-visit calming tricks and a separate cat entrance.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="faq-item reveal"
+                  data-faq-item
+                  data-reveal-repeat
+                >
+                  <button
+                    type="button"
+                    class="faq-toggle"
+                    id="faq-trigger-pay"
+                    data-faq-toggle
+                    aria-expanded="false"
+                    aria-controls="faq-panel-pay"
+                  >
+                    What payment options do you accept?
+                    <span class="faq-toggle__icon" aria-hidden="true">
+                      <i class="fas fa-paw"></i>
+                    </span>
+                  </button>
+                  <div
+                    class="faq-panel-shell"
+                    data-faq-panel-shell
+                    aria-hidden="true"
+                  >
+                    <div class="faq-panel-flow">
+                      <div
+                        class="faq-panel"
+                        id="faq-panel-pay"
+                        data-faq-panel
+                        role="region"
+                        aria-labelledby="faq-trigger-pay"
+                      >
+                        Cards, tap-to-pay, HSA/FSA where eligible, and care
+                        financing partners for bigger procedures. Estimates are
+                        always in human words before you commit.
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
+      <!-- Commitment CTA band before footer — not a separate router target -->
+      <section
+        class="section-block section-commitment-banner"
+        aria-labelledby="commitment-banner-title"
+      >
+        <div
+          class="commitment-banner__bg"
+          aria-hidden="true"
+          style="background-image: url('/public/hero/bg-dog-portrait.jpg')"
+        ></div>
+        <div class="commitment-banner__scrim" aria-hidden="true"></div>
+        <div class="commitment-banner__inner max-w-9xl">
+          <div
+            class="commitment-banner__lines commitment-banner__wave reveal"
+            data-reveal-repeat
+            aria-label="Our promise to you"
+          >
+            <p
+              class="commitment-banner__line commitment-banner__line--title"
+              id="commitment-banner-title"
+            >
+              Their health, our hearts — we’re in it together.
+            </p>
+            <p class="commitment-banner__line commitment-banner__line--lead">
+              From cozy nose-to-tail checkups to gentle specialist support when
+              you need it, we bring clear guidance, compassionate hands, and
+              honest answers for every patient who trots through our door.
+            </p>
+            <p class="commitment-banner__line commitment-banner__line--tag">
+              Better visits. Brighter waggers. That’s the plan.
+            </p>
+            <div class="commitment-banner__actions">
+              <div class="commitment-banner__ripple" aria-hidden="true">
+                <span class="commitment-banner__ripple-ring"></span>
+                <span class="commitment-banner__ripple-ring commitment-banner__ripple-ring--delay"></span>
+                <span class="commitment-banner__ripple-shine"></span>
+                <span class="commitment-banner__ripple-core">
+                  <i class="fas fa-star"></i>
+                </span>
+              </div>
+              <span class="cta-shine-wrap commitment-banner__cta">
+                <a href="/contact" data-route class="btn-paw btn-ripple">
+                  <img
+                    src="/public/paws-white-left.svg"
+                    alt=""
+                    width="20"
+                    height="20"
+                    class="btn-paw__icon"
+                    aria-hidden="true"
+                  />
+                  Snag a free consult — treats on us
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact / footer: route /contact — columns + legal line; year filled by js/main.js -->
       <section
         class="section-block section-contact"
         data-section-id="contact"
@@ -1265,13 +1720,14 @@
         </div>
         <div class="max-w-9xl footer-bottom reveal">
           <p>
-            Made with vanilla JS for learning — swap copy, add routes, keep the
-            treats flowing.
+            Made with vanilla JS for learning — ©
+            <span id="footer-year">2026</span>. All rights reserved.
           </p>
         </div>
       </section>
     </main>
 
+    <!-- Native <dialog> modals — opened with .showModal() from doctorReel.js / reviewsReel.js -->
     <dialog
       id="doctor-detail-dialog"
       class="doctor-modal"
@@ -1306,6 +1762,7 @@
       </div>
     </dialog>
 
+    <!-- ES module entry — browser loads js/main.js and its static imports (no bundler). -->
     <script type="module" src="js/main.js"></script>
   </body>
 </html>

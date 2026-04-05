@@ -1,5 +1,9 @@
-/* Design tokens — pet clinic: soft, friendly, readable. */
-/* Self-hosted latin woff2 — run: node scripts/download-hero-assets.mjs */
+/*
+ * Design tokens — pet clinic: soft, friendly, readable.
+ * @font-face: self-hosted WOFF2 (no Google Fonts runtime); paths under /public/fonts/.
+ * :root variables below are consumed across layout.css / components.css (single source of truth).
+ * Optional: node scripts/download-hero-assets.mjs can fetch hero images referenced in js/data.js.
+ */
 @font-face {
   font-family: Fredoka;
   font-style: normal;

@@ -1,4 +1,7 @@
-/* Scroll reveals + respect reduced motion */
+/*
+ * Motion system: .reveal / .is-visible, section-specific stagger, services nuggets, commitment wave.
+ * js/scrollReveal.js toggles .is-visible; many rules duplicate under @media (prefers-reduced-motion: reduce).
+ */
 .reveal {
   opacity: 0;
   transform: translateY(1.75rem) scale(0.98);
@@ -148,7 +151,132 @@
   animation-delay: 0ms;
 }
 
+/*
+ * Commitment banner: one scroll reveal on .commitment-banner__wave; lines wave in
+ * with alternating offsets + staggered transition-delay (no data-reveal-stagger).
+ */
+.section-commitment-banner .commitment-banner__wave .commitment-banner__line,
+.section-commitment-banner .commitment-banner__wave .commitment-banner__actions {
+  opacity: 0;
+  transform: translateY(2.2rem) translateX(var(--commitment-wave-x, 0))
+    rotate(var(--commitment-wave-r, 0deg));
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.95s cubic-bezier(0.33, 1.1, 0.45, 1);
+}
+
+.section-commitment-banner .commitment-banner__wave.is-visible .commitment-banner__line,
+.section-commitment-banner .commitment-banner__wave.is-visible .commitment-banner__actions {
+  opacity: 1;
+  transform: translateY(0) translateX(0) rotate(0deg);
+}
+
+.section-commitment-banner .commitment-banner__wave.is-visible .commitment-banner__line:nth-child(1) {
+  transition-delay: 0ms;
+}
+
+.section-commitment-banner .commitment-banner__wave.is-visible .commitment-banner__line:nth-child(2) {
+  transition-delay: 145ms;
+}
+
+.section-commitment-banner .commitment-banner__wave.is-visible .commitment-banner__line:nth-child(3) {
+  transition-delay: 290ms;
+}
+
+.section-commitment-banner .commitment-banner__line:nth-child(1) {
+  --commitment-wave-x: -1.1rem;
+  --commitment-wave-r: -1.2deg;
+}
+
+.section-commitment-banner .commitment-banner__line:nth-child(2) {
+  --commitment-wave-x: 1.35rem;
+  --commitment-wave-r: 1deg;
+}
+
+.section-commitment-banner .commitment-banner__line:nth-child(3) {
+  --commitment-wave-x: -0.85rem;
+  --commitment-wave-r: -0.8deg;
+}
+
+.section-commitment-banner .commitment-banner__wave.is-visible .commitment-banner__actions {
+  transition-delay: 420ms;
+}
+
+.section-commitment-banner .commitment-banner__actions {
+  --commitment-wave-x: 0.55rem;
+  --commitment-wave-r: 0.45deg;
+}
+
+/* CTA: same wiggle as service glass nuggets, after the actions block finishes sliding in */
+.section-commitment-banner .commitment-banner__wave.is-visible .commitment-banner__cta {
+  --nr: -0.45deg;
+  animation: serviceNuggetShakeOnly 0.52s var(--ease-out) both;
+  animation-delay: calc(420ms + 950ms + 40ms);
+}
+
+/*
+ * FAQ accordion rows: slide from the left with a tiny tilt; re-run when
+ * [data-reveal-repeat] leaves and re-enters the viewport.
+ */
+.section-faq .faq-item.reveal[data-reveal-repeat] {
+  opacity: 0;
+  transform: translateX(-1.85rem) translateY(0.85rem) rotate(-1.6deg) scale(0.97);
+  transition:
+    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.85s cubic-bezier(0.34, 1.12, 0.45, 1);
+}
+
+.section-faq .faq-item.reveal[data-reveal-repeat].is-visible {
+  opacity: 1;
+  transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+}
+
+.section-faq .faq-item.reveal[data-reveal-repeat]:nth-child(1) {
+  transition-delay: 0ms;
+}
+.section-faq .faq-item.reveal[data-reveal-repeat]:nth-child(2) {
+  transition-delay: 55ms;
+}
+.section-faq .faq-item.reveal[data-reveal-repeat]:nth-child(3) {
+  transition-delay: 110ms;
+}
+.section-faq .faq-item.reveal[data-reveal-repeat]:nth-child(4) {
+  transition-delay: 165ms;
+}
+.section-faq .faq-item.reveal[data-reveal-repeat]:nth-child(5) {
+  transition-delay: 220ms;
+}
+.section-faq .faq-item.reveal[data-reveal-repeat]:nth-child(6) {
+  transition-delay: 275ms;
+}
+.section-faq .faq-item.reveal[data-reveal-repeat]:nth-child(7) {
+  transition-delay: 330ms;
+}
+.section-faq .faq-item.reveal[data-reveal-repeat]:nth-child(8) {
+  transition-delay: 385ms;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .section-commitment-banner .commitment-banner__wave .commitment-banner__line,
+  .section-commitment-banner .commitment-banner__wave .commitment-banner__actions {
+    transition: none !important;
+    transition-delay: 0ms !important;
+    opacity: 1;
+    transform: none;
+  }
+
+  .section-commitment-banner .commitment-banner__wave.is-visible .commitment-banner__cta {
+    animation: none !important;
+    animation-delay: 0ms !important;
+  }
+
+  .section-faq .faq-item.reveal[data-reveal-repeat] {
+    transition: none;
+    transition-delay: 0ms !important;
+    opacity: 1;
+    transform: none;
+  }
+
   .reveal {
     transition: none;
     opacity: 1;

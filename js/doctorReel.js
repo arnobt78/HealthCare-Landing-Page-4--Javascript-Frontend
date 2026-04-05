@@ -1,6 +1,9 @@
 /**
  * Team section: horizontal doctor reel (infinite marquee for “All roles” only),
  * category filter, dialog profiles.
+ *
+ * Data source: TEAM_MEMBERS in data.js (no API). Cards are created in JS so the
+ * filter can rebuild the track; `<dialog>` uses the native modal API (`showModal`).
  */
 
 import { TEAM_MEMBERS, IMAGES, IMAGE_REMOTE_FALLBACK } from "./data.js";

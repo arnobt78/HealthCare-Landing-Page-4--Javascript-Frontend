@@ -3,6 +3,9 @@
  * Run: node scripts/download-hero-assets.mjs
  * Requires network. Commit outputs under public/hero and public/fonts for offline/CDN-free loads.
  *
+ * Educational: this is the only “network I/O” in the toolchain — not a runtime API for the site.
+ * The live page still works if you skip this script: js/data.js lists IMAGE_REMOTE_FALLBACK URLs.
+ *
  * Duck / fish-alt / guinea use Pexels CDN URLs (verified animal subjects). Pexels license: free use,
  * see https://www.pexels.com/license/
  */

@@ -1,4 +1,4 @@
-/* Reusable infinite pet-icon marquee (hydrated by js/petReel.js) */
+/* Horizontal SVG marquee — track children injected by js/petReel.js; optional pause via data-pet-reel-pause-on */
 
 .pet-reel {
   --pet-reel-duration: 52s;

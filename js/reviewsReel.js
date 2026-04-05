@@ -1,6 +1,9 @@
 /**
  * Pet parent stories: 4-column vertical infinite reel.
  * All columns scroll the same direction; duration per column differs (async waterfall).
+ *
+ * Distribution: reviews are split by index % 4 so each column gets a disjoint subset
+ * (see `cols.forEach`). Duplicating the card set (`appendSet` twice) enables seamless CSS loop.
  */
 
 import { PARENT_REVIEWS, IMAGES, IMAGE_REMOTE_FALLBACK } from "./data.js";
@@ -203,6 +206,7 @@ export function initReviewsReel() {
 
   cols.forEach((col, colIndex) => {
     if (!(col instanceof HTMLElement)) return;
+    /* Column 0: items 0,4,8,… — keeps neighboring columns visually distinct */
     const items = PARENT_REVIEWS.filter((_, i) => i % 4 === colIndex);
     if (!items.length) return;
 

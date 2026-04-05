@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Vanilla JS pet veterinary landing page (educational)",
+  "description": "Pawfect Care — pets healthcare landing page (vanilla JS SPA). Live demo: https://pets-healthcare.vercel.app/",
   "scripts": {
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "copy-static": "node scripts/copy-static.mjs",
     "fetch-assets": "node scripts/download-hero-assets.mjs",
     "build": "npm run lint && npm run copy-static",

@@ -1,4 +1,7 @@
-/* Layout shell: max-w-9xl, responsive header, mobile nav */
+/*
+ * Layout shell: page grid, .max-w-9xl content width, sticky header, mobile nav breakpoints.
+ * Educational: scroll-padding-top matches fixed header so in-page anchors/router targets aren’t hidden under the bar.
+ */
 html {
   font-size: 62.5%;
   scroll-behavior: smooth;

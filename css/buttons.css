@@ -1,4 +1,7 @@
-/* Primary CTA shine + click ripple (docs/RIPPLE_BUTTON_EFFECT.md) */
+/*
+ * Primary CTA shine + click ripple (docs/RIPPLE_BUTTON_EFFECT.md).
+ * js/ripple.js spawns .btn-ripple-fx nodes; ::after here runs the diagonal shine loop.
+ */
 
 .cta-shine-wrap {
   position: relative;

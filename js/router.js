@@ -1,10 +1,18 @@
 /**
  * Minimal client-side router: syncs URL pathname with scroll position on a
  * single-page layout. Works with Vercel SPA rewrites so refresh on /about works.
+ *
+ * Educational map (this file = entire “SPA routing” for the site):
+ * - No fetch(): paths are not server routes; they are labels for scroll targets.
+ * - `data-route` links: in-page navigation without full page reload.
+ * - `history.pushState` / `replaceState`: URL bar matches the section user sees.
+ * - `popstate`: browser Back/Forward still scrolls to the right block.
+ * - Nav highlight: IntersectionObserver ties scroll position to `.is-active` on `[data-nav-for]`.
  */
 
 import { requestServicesTab } from "./ui.js";
 
+/** Every major section in index.html should expose `data-section-id` for this router. */
 const SECTION_SELECTOR = "[data-section-id]";
 
 /**
@@ -13,6 +21,7 @@ const SECTION_SELECTOR = "[data-section-id]";
 export function pathToSectionId(path) {
   const clean = path.replace(/\/+$/, "") || "/";
   if (clean === "/" || clean === "") return "home";
+  /* "/about" → "about" — must match `data-section-id` on a <section> */
   return clean.replace(/^\//, "");
 }
 
@@ -40,12 +49,14 @@ export function initRouter() {
   const initial = pathToSectionId(window.location.pathname);
   navigateToSection(initial, { replace: true });
 
+  /* Back/forward: user landed on same index.html; we only change scroll position. */
   window.addEventListener("popstate", () => {
     const id = pathToSectionId(window.location.pathname);
     const el = document.querySelector(`[data-section-id="${id}"]`);
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 
+  /* Progressive enhancement: real hrefs work without JS; with JS we stay on one document. */
   document.querySelectorAll('a[data-route][href^="/"]').forEach((anchor) => {
     anchor.addEventListener("click", (e) => {
       const href = anchor.getAttribute("href");
@@ -53,6 +64,7 @@ export function initRouter() {
       e.preventDefault();
       const id = pathToSectionId(href);
       navigateToSection(id);
+      /* Deep-link from nav dropdown into a specific Services tab panel */
       if (id === "services") {
         const tab = anchor.getAttribute("data-services-tab");
         if (tab) requestServicesTab(tab);
@@ -77,6 +89,7 @@ export function initRouter() {
         });
       });
     },
+    /* Shrink the “active” viewport band so one section wins at a time (not all at once). */
     { rootMargin: "-40% 0px -45% 0px", threshold: 0.01 },
   );
 

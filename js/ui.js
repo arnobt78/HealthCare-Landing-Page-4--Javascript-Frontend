@@ -1,5 +1,8 @@
 /**
  * UI behaviors: mobile nav, dropdown, tabs, FAQ accordion, dynamic images.
+ *
+ * This module is the “glue” between HTML hooks (`data-*` attributes) and behavior.
+ * It does not call any backend API — only the DOM and CustomEvents (e.g. tab requests).
  */
 
 import { IMAGES, IMAGE_REMOTE_FALLBACK } from "./data.js";
@@ -10,12 +13,11 @@ import {
 } from "./scrollReveal.js";
 
 /**
- * Apply Unsplash URLs from data.js to elements with data-dynamic-img="key".
- * Educational: one function updates many images from a single data map.
- */
-/**
  * SafeImage-style fallback (vanilla): if primary URL fails, swap to data-fallback-img key.
  * Mirrors docs/SAFE_IMAGE_REUSABLE_COMPONENT.md for plain HTML projects.
+ *
+ * Flow: `applyDynamicImages` sets `src` from IMAGES[key], then `error` listener may
+ * substitute IMAGE_REMOTE_FALLBACK or alternate keys — useful when a local file is missing.
  */
 function bindImageFallback(img) {
   const dynKey = img.getAttribute("data-dynamic-img");
@@ -43,7 +45,6 @@ export function applyDynamicImages() {
       img.setAttribute("src", IMAGES[key]);
     }
   });
-
 }
 
 /**
@@ -123,6 +124,7 @@ export function initTabs() {
       root.hasAttribute("data-tabs-carousel") && viewport && stack,
     );
 
+    /* Classic tabs: show one panel, toggle .is-active + aria-selected (no carousel motion). */
     if (!carousel) {
       const activate = (id) => {
         if (!id) return;
@@ -146,6 +148,7 @@ export function initTabs() {
       return;
     }
 
+    /* Services carousel: zoom/stack transition + auto-advance timer + scroll-driven intro for pills. */
     let idx = panels.findIndex((p) => p.classList.contains("is-active"));
     if (idx < 0) idx = 0;
 
@@ -354,6 +357,7 @@ export function initTabs() {
 /**
  * Navbar / in-page links: open Services section tab (matches data-tab-target id).
  */
+/** Called from router when a nav link carries `data-services-tab` (e.g. open Cats panel). */
 export function requestServicesTab(panelTargetId) {
   document
     .querySelector(".services-tabs[data-tabs-carousel]")
@@ -366,18 +370,33 @@ export function requestServicesTab(panelTargetId) {
 }
 
 /**
- * FAQ accordion: one button opens one panel; ARIA friendly.
+ * FAQ accordion: smooth height (grid 0fr → 1fr); instant toggle if reduced motion.
  */
 export function initFaq() {
+  const reduceMotion =
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   document.querySelectorAll("[data-faq-item]").forEach((item) => {
     const btn = item.querySelector("[data-faq-toggle]");
+    const shell = item.querySelector("[data-faq-panel-shell]");
     const panel = item.querySelector("[data-faq-panel]");
-    if (!btn || !panel) return;
+    if (!(btn instanceof HTMLElement) || !shell || !panel) return;
+
+    if (reduceMotion) {
+      panel.hidden = true;
+    } else {
+      panel.removeAttribute("hidden");
+    }
 
     btn.addEventListener("click", () => {
-      const open = item.classList.toggle("is-open");
+      const open = !item.classList.contains("is-open");
+      item.classList.toggle("is-open", open);
       btn.setAttribute("aria-expanded", open ? "true" : "false");
-      panel.hidden = !open;
+      shell.setAttribute("aria-hidden", open ? "false" : "true");
+      if (reduceMotion) {
+        panel.hidden = !open;
+      }
     });
   });
 }

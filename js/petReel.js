@@ -82,6 +82,7 @@ export function initPetReel() {
 
     const icons = parseIcons(reel.dataset.petReelIcons);
 
+    /* Duplicate icon sequence so CSS animation can loop without a visible seam. */
     for (let pass = 0; pass < 2; pass += 1) {
       icons.forEach((src) => {
         const item = document.createElement("span");
