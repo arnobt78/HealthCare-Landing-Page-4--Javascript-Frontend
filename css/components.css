@@ -201,7 +201,10 @@
 }
 
 .hero-kicker.reveal.is-visible {
+  /* Override animations.css `.reveal.is-visible` (flat transform) until keyframes run */
   transition: none;
+  opacity: 0;
+  transform: translateY(0.85rem) scale(0.88) rotate(var(--nr, 0deg));
   animation: heroNuggetPop 0.92s var(--ease-out) 0.12s both;
 }
 
@@ -551,7 +554,10 @@
 }
 
 .hero-gallery-nugget.reveal.is-visible {
+  /* Keep tilt (--nr) during animation-delay; avoid one frame of flat `.reveal.is-visible` */
   transition: none;
+  opacity: 0;
+  transform: translateY(0.85rem) scale(0.88) rotate(var(--nr, 0deg));
   animation: heroNuggetPop 0.92s var(--ease-out) forwards;
 }
 
