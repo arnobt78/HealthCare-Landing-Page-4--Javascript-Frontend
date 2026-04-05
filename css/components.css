@@ -191,16 +191,32 @@
   border-radius: var(--radius-chip);
   margin-bottom: 1.2rem;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+}
+
+.hero-kicker.reveal:not(.is-visible) {
   opacity: 0;
-  /* Same pop + nudge shake as .hero-gallery-nugget; slight delay so it trails the hero paint */
+  animation: none;
+  transform: translateY(0.85rem) scale(0.88) rotate(var(--nr, 0deg));
+  transition: none;
+}
+
+.hero-kicker.reveal.is-visible {
+  transition: none;
   animation: heroNuggetPop 0.92s var(--ease-out) 0.12s both;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-kicker {
+  .hero-kicker.reveal:not(.is-visible) {
+    opacity: 0;
     animation: none;
-    opacity: 1;
     transform: none;
+  }
+
+  .hero-kicker.reveal.is-visible {
+    opacity: 1;
+    animation: none;
+    transform: none;
+    transition: opacity 0.35s ease;
   }
 }
 
@@ -376,9 +392,21 @@
     0 0 0 4px rgba(255, 255, 255, 0.95),
     0 0 40px rgba(19, 116, 106, 0.25);
   background: var(--color-white);
+}
+
+.hero-shot.reveal {
   opacity: 0;
-  animation: heroShotIn 0.88s var(--ease-out) forwards;
-  animation-delay: calc(0.06s + var(--hi, 0) * 0.13s);
+  animation: none;
+  transform: scale(0.82) translateY(2.8rem) rotate(var(--rot, 0deg));
+  transition:
+    opacity 0.88s var(--ease-out),
+    transform 0.88s var(--ease-out);
+  transition-delay: calc(var(--reveal-i, 0) * 65ms);
+}
+
+.hero-shot.reveal.is-visible {
+  opacity: 1;
+  transform: scale(1) translateY(0) rotate(var(--rot, 0deg));
 }
 
 .hero-shot img {
@@ -473,9 +501,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-shot {
+  .hero-shot.reveal {
     animation: none;
     opacity: 1;
+    transform: scale(1) translateY(0) rotate(var(--rot, 0deg));
+    transition: none;
   }
 }
 
@@ -511,8 +541,38 @@
     0 8px 28px rgba(19, 116, 106, 0.22),
     0 0 32px rgba(153, 246, 228, 0.14),
     inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.hero-gallery-nugget.reveal:not(.is-visible) {
   opacity: 0;
+  animation: none;
+  transform: translateY(0.85rem) scale(0.88) rotate(var(--nr, 0deg));
+  transition: none;
+}
+
+.hero-gallery-nugget.reveal.is-visible {
+  transition: none;
   animation: heroNuggetPop 0.92s var(--ease-out) forwards;
+}
+
+.hero-gallery-nugget--1.reveal.is-visible {
+  animation-delay: 1s;
+}
+
+.hero-gallery-nugget--2.reveal.is-visible {
+  animation-delay: 1.16s;
+}
+
+.hero-gallery-nugget--3.reveal.is-visible {
+  animation-delay: 1.32s;
+}
+
+.hero-gallery-nugget--4.reveal.is-visible {
+  animation-delay: 1.48s;
+}
+
+.hero-gallery-nugget--5.reveal.is-visible {
+  animation-delay: 1.64s;
 }
 
 /*
@@ -534,28 +594,24 @@
   --nr: -35.5deg;
   top: -20%;
   left: 0%;
-  animation-delay: 1s;
 }
 
 .hero-gallery-nugget--2 {
   --nr: 25.2deg;
   top: 18%;
   right: 10%;
-  animation-delay: 1.16s;
 }
 
 .hero-gallery-nugget--3 {
   --nr: -26.8deg;
   top: 58%;
   left: -3%;
-  animation-delay: 1.32s;
 }
 
 .hero-gallery-nugget--4 {
   --nr: 8.5deg;
   bottom: -5%;
   right: -3%;
-  animation-delay: 1.48s;
 }
 
 /* Bottom-left guinea-pig frame (hero-shot--4) */
@@ -563,7 +619,6 @@
   --nr: -18deg;
   bottom: -20%;
   left: 33%;
-  animation-delay: 1.64s;
 }
 
 @media (max-width: 639px) {
@@ -582,39 +637,60 @@
   .hero-gallery-nugget--1 {
     top: 1%;
     left: 2%;
-    animation-delay: 0.92s;
   }
 
   .hero-gallery-nugget--2 {
     top: 1%;
     right: 2%;
     left: auto;
-    animation-delay: 1.04s;
   }
 
   .hero-gallery-nugget--3 {
     top: auto;
     bottom: 38%;
     left: 2%;
-    animation-delay: 1.16s;
   }
 
   .hero-gallery-nugget--4 {
     bottom: 8%;
     right: 2%;
-    animation-delay: 1.28s;
   }
 
   .hero-gallery-nugget--5 {
     bottom: 8%;
     left: 2%;
     right: auto;
+  }
+
+  .hero-gallery-nugget--1.reveal.is-visible {
+    animation-delay: 0.92s;
+  }
+
+  .hero-gallery-nugget--2.reveal.is-visible {
+    animation-delay: 1.04s;
+  }
+
+  .hero-gallery-nugget--3.reveal.is-visible {
+    animation-delay: 1.16s;
+  }
+
+  .hero-gallery-nugget--4.reveal.is-visible {
+    animation-delay: 1.28s;
+  }
+
+  .hero-gallery-nugget--5.reveal.is-visible {
     animation-delay: 1.4s;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-gallery-nugget {
+  .hero-gallery-nugget.reveal:not(.is-visible) {
+    opacity: 0;
+    animation: none;
+    transform: translateY(0.35rem) rotate(var(--nr, 0deg));
+  }
+
+  .hero-gallery-nugget.reveal.is-visible {
     animation: heroNuggetReduce 0.4s ease forwards;
   }
 }
@@ -1718,34 +1794,30 @@
 
 .commitment-banner__line--title {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(2.4rem, 5vw, 3.8rem);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  color: #fff;
-  /* Solid white + soft light “air” around glyphs, then darker falloff for contrast on photo */
-  text-shadow:
-    0 0 32px rgba(255, 255, 255, 0.5),
-    0 0 16px rgba(255, 255, 255, 0.4),
-    0 0 6px rgba(255, 255, 255, 0.35),
-    0 2px 28px rgba(0, 0, 0, 0.5),
-    0 1px 10px rgba(0, 0, 0, 0.4);
+  font-weight: 600;
+  font-size: clamp(2.15rem, 4.5vw, 3.35rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: rgba(248, 250, 252, 0.94);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.42);
 }
 
 .commitment-banner__line--lead {
   font-family: var(--font-body);
-  font-size: clamp(1.55rem, 2.4vw, 1.85rem);
-  font-weight: 500;
-  line-height: 1.55;
-  color: rgba(255, 255, 255, 0.94);
+  font-size: clamp(1.45rem, 2.2vw, 1.72rem);
+  font-weight: 400;
+  line-height: 1.58;
+  color: rgba(255, 255, 255, 0.78);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
 }
 
 .commitment-banner__line--tag {
   font-family: var(--font-display);
-  font-size: clamp(1.65rem, 2.8vw, 2.15rem);
-  font-weight: 600;
-  line-height: 1.3;
-  color: rgba(255, 234, 167, 0.98);
+  font-size: clamp(1.38rem, 2.2vw, 1.72rem);
+  font-weight: 500;
+  line-height: 1.35;
+  color: rgba(198, 192, 182, 0.92);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
 }
 
 .commitment-banner__actions {
@@ -1769,10 +1841,8 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.42);
-  box-shadow:
-    0 0 18px rgba(255, 234, 167, 0.35),
-    inset 0 0 12px rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.06);
   animation: commitment-ripple-out 2.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
   opacity: 0;
 }
@@ -1788,12 +1858,12 @@
   background: conic-gradient(
     from 120deg,
     transparent 0deg,
-    rgba(255, 255, 255, 0.45) 55deg,
-    rgba(255, 234, 167, 0.5) 110deg,
+    rgba(255, 255, 255, 0.2) 55deg,
+    rgba(255, 255, 255, 0.12) 110deg,
     transparent 200deg,
     transparent 360deg
   );
-  opacity: 0.55;
+  opacity: 0.28;
   animation: commitment-ripple-spin 5s linear infinite;
   pointer-events: none;
   mask-image: radial-gradient(circle, #000 32%, transparent 68%);
@@ -1810,16 +1880,16 @@
   align-items: center;
   justify-content: center;
   font-size: 1.05rem;
-  color: rgba(255, 249, 245, 0.98);
+  color: rgba(255, 255, 255, 0.88);
   background: radial-gradient(
     circle at 32% 28%,
-    rgba(255, 255, 255, 0.35) 0%,
-    rgba(58, 168, 148, 0.55) 45%,
-    rgba(19, 116, 106, 0.9) 100%
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(55, 75, 85, 0.65) 48%,
+    rgba(28, 42, 48, 0.88) 100%
   );
   box-shadow:
-    0 4px 20px rgba(0, 0, 0, 0.35),
-    0 0 0 1px rgba(255, 255, 255, 0.25);
+    0 2px 12px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(255, 255, 255, 0.12);
 }
 
 @keyframes commitment-ripple-out {
@@ -1854,6 +1924,29 @@
     animation: none;
     opacity: 0.25;
   }
+}
+
+.section-commitment-banner .commitment-banner__cta.cta-shine-wrap::after {
+  opacity: 0.28;
+}
+
+.section-commitment-banner .commitment-banner__cta .btn-paw {
+  font-weight: 500;
+  background: linear-gradient(
+    125deg,
+    rgba(42, 88, 82, 0.88) 0%,
+    rgba(24, 58, 54, 0.92) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.section-commitment-banner .commitment-banner__cta .btn-paw:hover {
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 
 /* —— Contact / footer —— */
