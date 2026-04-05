@@ -93,6 +93,42 @@ main {
   background-image: url("/public/paws-green-right.svg");
 }
 
+/* Bottom row: paws + infinite pet reel (see css/pet-reel.css, js/petReel.js) */
+.post-hero-bg-decor__bottom-strip {
+  /* Flank paws — tune here */
+  --post-hero-paw-size: clamp(5.5rem, 11vw, 10rem);
+  /* Reel icons — separate so you can shrink the row without editing pet-reel fallbacks */
+  --post-hero-reel-item-size: clamp(3.5rem, 7.5vw, 5.75rem);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(0.35rem, 1.5vw, 1rem);
+  padding-left: max(0.2rem, env(safe-area-inset-left, 0px));
+  padding-right: max(0.2rem, env(safe-area-inset-right, 0px));
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
+}
+
+.post-hero-bg-decor__bottom-strip .post-hero-bg-decor__paw {
+  position: relative;
+  bottom: auto;
+  left: auto;
+  right: auto;
+  flex-shrink: 0;
+  width: var(--post-hero-paw-size);
+  height: var(--post-hero-paw-size);
+}
+
+.post-hero-bg-decor__bottom-strip .post-hero-bg-decor__paw--left,
+.post-hero-bg-decor__bottom-strip .post-hero-bg-decor__paw--right {
+  left: auto;
+  right: auto;
+}
+
 .post-hero-bg-decor__together {
   position: absolute;
   left: 50%;
@@ -116,6 +152,11 @@ main {
 }
 
 @media (max-width: 639px) {
+  .post-hero-bg-decor__bottom-strip {
+    --post-hero-paw-size: clamp(4.5rem, 18vw, 7.5rem);
+    --post-hero-reel-item-size: clamp(3rem, 12vw, 5rem);
+  }
+
   .post-hero-bg-decor__paw {
     width: clamp(4.5rem, 18vw, 7.5rem);
     height: clamp(4.5rem, 18vw, 7.5rem);

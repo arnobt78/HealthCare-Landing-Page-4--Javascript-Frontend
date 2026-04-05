@@ -998,6 +998,41 @@
   background: transparent;
 }
 
+.section-services__head {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2rem);
+  margin-bottom: 1.4rem;
+  flex-wrap: wrap;
+}
+
+.section-services__mascot {
+  width: clamp(4.2rem, 8vw, 6rem);
+  height: auto;
+  flex-shrink: 0;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 14px rgba(17, 118, 110, 0.2));
+}
+
+.section-services__title {
+  margin: 0;
+}
+
+.services-mini-badges {
+  margin-bottom: 1.75rem;
+}
+
+.section-services__lead {
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
+.services-tabs {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
 .tabs-head {
   display: flex;
   flex-wrap: wrap;
@@ -1034,7 +1069,8 @@
   transform: translateY(-2px);
 }
 
-.tab-panel {
+/* Classic tab swap (no carousel) */
+[data-tabs]:not([data-tabs-carousel]) .tab-panel {
   display: none;
   padding: 2.4rem;
   background: var(--color-white);
@@ -1042,8 +1078,50 @@
   box-shadow: var(--shadow-soft);
 }
 
-.tab-panel.is-active {
+[data-tabs]:not([data-tabs-carousel]) .tab-panel.is-active {
   display: block;
+}
+
+/* Carousel: tabs sit above glow; viewport carries shadow like about photo */
+.tab-panels-shell {
+  width: 100%;
+}
+
+.tab-panels-viewport {
+  overflow: hidden;
+  width: 100%;
+  border-radius: var(--radius-paw);
+  border: 3px solid rgba(255, 234, 167, 0.5);
+  background: var(--color-white);
+  box-shadow:
+    0 28px 64px rgba(19, 116, 106, 0.22),
+    0 0 0 1px rgba(255, 255, 255, 0.35),
+    0 0 56px rgba(94, 201, 181, 0.2),
+    0 0 44px rgba(255, 180, 162, 0.16);
+}
+
+.tab-panels-track {
+  display: flex;
+  width: 100%;
+  transition: transform 0.55s var(--ease-out);
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab-panels-track {
+    transition: none;
+  }
+}
+
+[data-tabs-carousel] .tab-panel {
+  flex: 0 0 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 2.4rem;
+  margin: 0;
+  background: var(--color-white);
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .service-mini-grid {

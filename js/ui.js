@@ -4,6 +4,7 @@
 
 import { IMAGES, IMAGE_REMOTE_FALLBACK } from "./data.js";
 import { setAppState } from "./appContext.js";
+import { playStaggerReveal } from "./scrollReveal.js";
 
 /**
  * Apply Unsplash URLs from data.js to elements with data-dynamic-img="key".
@@ -106,32 +107,117 @@ export function initDropdowns() {
 }
 
 /**
- * Tab panels: buttons with data-tab-target match id on panels.
+ * Tab panels: data-tab-target matches panel id.
+ * [data-tabs-carousel] + [data-tab-panels-track]: horizontal slide + optional auto-advance.
  */
 export function initTabs() {
   document.querySelectorAll("[data-tabs]").forEach((root) => {
-    const buttons = root.querySelectorAll("[data-tab-target]");
-    const panels = root.querySelectorAll("[data-tab-panel]");
+    const buttons = [...root.querySelectorAll("[data-tab-target]")];
+    const panels = [...root.querySelectorAll("[data-tab-panel]")];
+    const track = root.querySelector("[data-tab-panels-track]");
+    const carousel = Boolean(root.hasAttribute("data-tabs-carousel") && track);
 
-    const activate = (id) => {
-      if (!id) return;
-      buttons.forEach((b) => {
-        const on = b.getAttribute("data-tab-target") === id;
+    if (!carousel) {
+      const activate = (id) => {
+        if (!id) return;
+        buttons.forEach((b) => {
+          const on = b.getAttribute("data-tab-target") === id;
+          b.classList.toggle("is-active", on);
+          b.setAttribute("aria-selected", on ? "true" : "false");
+        });
+        panels.forEach((p) => {
+          const on = p.id === id;
+          p.classList.toggle("is-active", on);
+        });
+      };
+      buttons.forEach((btn) => {
+        btn.addEventListener("click", () => activate(btn.getAttribute("data-tab-target")));
+      });
+      const defaultBtn = root.querySelector(".tab-btn.is-active");
+      activate(
+        defaultBtn ? defaultBtn.getAttribute("data-tab-target") : buttons[0]?.getAttribute("data-tab-target"),
+      );
+      return;
+    }
+
+    let idx = panels.findIndex((p) => p.classList.contains("is-active"));
+    if (idx < 0) idx = 0;
+
+    const intervalMs = Math.max(3500, Number(root.getAttribute("data-tabs-interval")) || 5600);
+    const reduceMotion =
+      window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    let carouselTimer = null;
+
+    const pauseCarousel = () => {
+      if (carouselTimer != null) {
+        window.clearInterval(carouselTimer);
+        carouselTimer = null;
+      }
+    };
+
+    const resumeCarousel = () => {
+      if (reduceMotion) return;
+      pauseCarousel();
+      carouselTimer = window.setInterval(() => {
+        go(idx + 1);
+      }, intervalMs);
+    };
+
+    const syncButtons = () => {
+      buttons.forEach((b, bi) => {
+        const on = bi === idx;
         b.classList.toggle("is-active", on);
         b.setAttribute("aria-selected", on ? "true" : "false");
       });
-      panels.forEach((p) => {
-        const on = p.id === id;
-        p.classList.toggle("is-active", on);
+    };
+
+    const syncA11y = () => {
+      panels.forEach((p, pi) => {
+        p.classList.toggle("is-active", pi === idx);
+        p.setAttribute("aria-hidden", pi !== idx ? "true" : "false");
       });
     };
 
-    buttons.forEach((btn) => {
-      btn.addEventListener("click", () => activate(btn.getAttribute("data-tab-target")));
+    const applyTrack = () => {
+      track.style.transform = `translate3d(-${idx * 100}%, 0, 0)`;
+    };
+
+    const go = (next) => {
+      idx = ((next % panels.length) + panels.length) % panels.length;
+      syncButtons();
+      syncA11y();
+      applyTrack();
+      playStaggerReveal(panels[idx].querySelector("[data-reveal-stagger]"));
+    };
+
+    buttons.forEach((btn, bi) => {
+      btn.addEventListener("click", () => {
+        pauseCarousel();
+        go(bi);
+        resumeCarousel();
+      });
     });
 
-    const defaultBtn = root.querySelector(".tab-btn.is-active");
-    activate(defaultBtn ? defaultBtn.getAttribute("data-tab-target") : buttons[0]?.getAttribute("data-tab-target"));
+    root.addEventListener("mouseenter", pauseCarousel);
+    root.addEventListener("mouseleave", () => {
+      window.requestAnimationFrame(() => {
+        if (!root.matches(":focus-within")) resumeCarousel();
+      });
+    });
+    root.addEventListener("focusin", pauseCarousel);
+    root.addEventListener("focusout", (e) => {
+      if (root.contains(e.relatedTarget)) return;
+      window.requestAnimationFrame(() => {
+        if (!root.matches(":focus-within")) resumeCarousel();
+      });
+    });
+
+    syncButtons();
+    syncA11y();
+    applyTrack();
+    playStaggerReveal(panels[idx].querySelector("[data-reveal-stagger]"));
+    resumeCarousel();
   });
 }
 

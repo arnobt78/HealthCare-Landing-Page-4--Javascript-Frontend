@@ -352,9 +352,20 @@
 
       <!-- Below-hero page decor: bg SVGs under content (see layout.css) -->
       <div class="post-hero-bg-decor" aria-hidden="true">
-        <div class="post-hero-bg-decor__paw post-hero-bg-decor__paw--left"></div>
         <div class="post-hero-bg-decor__together"></div>
-        <div class="post-hero-bg-decor__paw post-hero-bg-decor__paw--right"></div>
+        <div class="post-hero-bg-decor__bottom-strip">
+          <div
+            class="post-hero-bg-decor__paw post-hero-bg-decor__paw--left"
+          ></div>
+          <div class="pet-reel" data-pet-reel>
+            <div class="pet-reel__viewport">
+              <div class="pet-reel__track"></div>
+            </div>
+          </div>
+          <div
+            class="post-hero-bg-decor__paw post-hero-bg-decor__paw--right"
+          ></div>
+        </div>
       </div>
 
       <!-- Stagger container: children get .is-visible one after another in JS -->
@@ -534,149 +545,270 @@
         id="services"
       >
         <div class="max-w-9xl">
-          <h2 class="section-title reveal">
-            Services that cover every whisker
-          </h2>
-          <p class="section-lead reveal">
-            Pick a tab to see what we do best for each kind of companion.
+          <header class="section-services__head reveal">
+            <img
+              src="/public/pets-house.svg"
+              alt=""
+              width="64"
+              height="64"
+              class="section-services__mascot"
+              decoding="async"
+              aria-hidden="true"
+            />
+            <h2 class="section-title section-services__title">
+              Services that cover every whisker
+            </h2>
+          </header>
+
+          <div
+            class="about-mini-badges services-mini-badges"
+            data-reveal-stagger
+            aria-label="What we bring to every visit"
+          >
+            <span class="about-chip about-chip--mint reveal">
+              <span
+                class="about-chip__icon about-chip__icon--star"
+                aria-hidden="true"
+              ></span>
+              Low-stress wins
+            </span>
+            <span class="about-chip about-chip--peach reveal">
+              <span
+                class="about-chip__icon about-chip__icon--food"
+                aria-hidden="true"
+              ></span>
+              Treat-positive visits
+            </span>
+            <span class="about-chip about-chip--lilac reveal">
+              <span
+                class="about-chip__icon about-chip__icon--healthy"
+                aria-hidden="true"
+              ></span>
+              Prevention-first care
+            </span>
+            <span class="about-chip about-chip--sky reveal">
+              <span
+                class="about-chip__icon about-chip__icon--house"
+                aria-hidden="true"
+              ></span>
+              Calm clinic spaces
+            </span>
+            <span class="about-chip about-chip--butter reveal">
+              <span
+                class="about-chip__icon about-chip__icon--satisfied"
+                aria-hidden="true"
+              ></span>
+              Happy-tail check-ins
+            </span>
+          </div>
+
+          <p class="section-lead section-services__lead reveal">
+            From giant breeds to pocket pets, we match exams, vaccines, and
+            follow-up plans to the species on your couch — same team, same
+            plain-language notes, zero guesswork about what happens next.
           </p>
 
-          <!-- data-tabs wraps buttons + panels; JS wires aria and visibility -->
-          <div data-tabs>
-            <div class="tabs-head reveal">
+          <div
+            data-tabs
+            data-tabs-carousel
+            data-tabs-interval="5600"
+            class="services-tabs"
+          >
+            <div
+              class="tabs-head reveal"
+              role="tablist"
+              aria-label="Services by companion type"
+            >
               <button
                 type="button"
                 class="tab-btn is-active"
-                data-tab-target="tab-dogs"
+                id="services-tab-dogs"
+                role="tab"
                 aria-selected="true"
+                aria-controls="tab-dogs"
+                data-tab-target="tab-dogs"
               >
                 Dogs
               </button>
               <button
                 type="button"
                 class="tab-btn"
-                data-tab-target="tab-cats"
+                id="services-tab-cats"
+                role="tab"
                 aria-selected="false"
+                aria-controls="tab-cats"
+                data-tab-target="tab-cats"
               >
                 Cats
               </button>
               <button
                 type="button"
                 class="tab-btn"
-                data-tab-target="tab-small"
+                id="services-tab-small"
+                role="tab"
                 aria-selected="false"
+                aria-controls="tab-small"
+                data-tab-target="tab-small"
               >
                 Small pets
               </button>
             </div>
-            <div
-              id="tab-dogs"
-              class="tab-panel is-active reveal"
-              data-tab-panel
-              role="tabpanel"
-            >
-              <div class="service-mini-grid">
-                <div class="service-pill">
-                  <i class="fas fa-stethoscope" aria-hidden="true"></i>
-                  <div>
-                    <h4>Wellness exams</h4>
-                    <p>
-                      Nose-to-tail checks, weight trends, and playful mobility
-                      games.
-                    </p>
+
+            <div class="tab-panels-shell">
+              <div class="tab-panels-viewport">
+                <div class="tab-panels-track" data-tab-panels-track>
+                  <div
+                    id="tab-dogs"
+                    class="tab-panel is-active"
+                    data-tab-panel
+                    role="tabpanel"
+                    aria-labelledby="services-tab-dogs"
+                    aria-hidden="false"
+                  >
+                    <div class="service-mini-grid" data-reveal-stagger>
+                      <div class="service-pill reveal">
+                        <i class="fas fa-stethoscope" aria-hidden="true"></i>
+                        <div>
+                          <h4>Wellness exams</h4>
+                          <p>
+                            Nose-to-tail checks, weight trends, and playful
+                            mobility games.
+                          </p>
+                        </div>
+                      </div>
+                      <div class="service-pill reveal">
+                        <i class="fas fa-syringe" aria-hidden="true"></i>
+                        <div>
+                          <h4>Vaccines &amp; boosters</h4>
+                          <p>
+                            Personalized schedules based on lifestyle — park
+                            pups vs. couch potatoes.
+                          </p>
+                        </div>
+                      </div>
+                      <div class="service-pill reveal">
+                        <i class="fas fa-tooth" aria-hidden="true"></i>
+                        <div>
+                          <h4>Dental sparkle</h4>
+                          <p>
+                            Scale &amp; polish with cozy warming blankets
+                            afterward.
+                          </p>
+                        </div>
+                      </div>
+                      <div class="service-pill reveal">
+                        <i class="fas fa-bandage" aria-hidden="true"></i>
+                        <div>
+                          <h4>Minor surgery</h4>
+                          <p>
+                            Clear discharge sheets and text updates while you
+                            grab coffee.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div class="service-pill">
-                  <i class="fas fa-syringe" aria-hidden="true"></i>
-                  <div>
-                    <h4>Vaccines &amp; boosters</h4>
-                    <p>
-                      Personalized schedules based on lifestyle — park pups vs.
-                      couch potatoes.
-                    </p>
+                  <div
+                    id="tab-cats"
+                    class="tab-panel"
+                    data-tab-panel
+                    role="tabpanel"
+                    aria-labelledby="services-tab-cats"
+                    aria-hidden="true"
+                  >
+                    <div class="service-mini-grid" data-reveal-stagger>
+                      <div class="service-pill reveal">
+                        <i class="fas fa-cat" aria-hidden="true"></i>
+                        <div>
+                          <h4>Stealth-mode exams</h4>
+                          <p>
+                            Soft mats, pheromone diffusers, and quiet rooms for
+                            shy kitties.
+                          </p>
+                        </div>
+                      </div>
+                      <div class="service-pill reveal">
+                        <i class="fas fa-droplet" aria-hidden="true"></i>
+                        <div>
+                          <h4>Hydration &amp; kidney care</h4>
+                          <p>
+                            At-home fountain tips plus labs when we need a clear
+                            picture.
+                          </p>
+                        </div>
+                      </div>
+                      <div class="service-pill reveal">
+                        <i class="fas fa-paw" aria-hidden="true"></i>
+                        <div>
+                          <h4>Nail &amp; coat spa</h4>
+                          <p>
+                            Low-stress trims — treats included, attitude
+                            optional.
+                          </p>
+                        </div>
+                      </div>
+                      <div class="service-pill reveal">
+                        <i class="fas fa-flask" aria-hidden="true"></i>
+                        <div>
+                          <h4>Thyroid &amp; senior labs</h4>
+                          <p>
+                            Trending numbers for aging cats so we catch shifts
+                            before they steal spunk.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div class="service-pill">
-                  <i class="fas fa-tooth" aria-hidden="true"></i>
-                  <div>
-                    <h4>Dental sparkle</h4>
-                    <p>
-                      Scale &amp; polish with cozy warming blankets afterward.
-                    </p>
-                  </div>
-                </div>
-                <div class="service-pill">
-                  <i class="fas fa-bandage" aria-hidden="true"></i>
-                  <div>
-                    <h4>Minor surgery</h4>
-                    <p>
-                      Clear discharge sheets and text updates while you grab
-                      coffee.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              id="tab-cats"
-              class="tab-panel reveal"
-              data-tab-panel
-              role="tabpanel"
-            >
-              <div class="service-mini-grid">
-                <div class="service-pill">
-                  <i class="fas fa-cat" aria-hidden="true"></i>
-                  <div>
-                    <h4>Stealth-mode exams</h4>
-                    <p>
-                      Soft mats, pheromone diffusers, and quiet rooms for shy
-                      kitties.
-                    </p>
-                  </div>
-                </div>
-                <div class="service-pill">
-                  <i class="fas fa-droplet" aria-hidden="true"></i>
-                  <div>
-                    <h4>Hydration &amp; kidney care</h4>
-                    <p>At-home fountain tips plus lab work when needed.</p>
-                  </div>
-                </div>
-                <div class="service-pill">
-                  <i class="fas fa-paw" aria-hidden="true"></i>
-                  <div>
-                    <h4>Nail &amp; coat spa</h4>
-                    <p>
-                      Low-stress trims — treats included, attitude optional.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              id="tab-small"
-              class="tab-panel reveal"
-              data-tab-panel
-              role="tabpanel"
-            >
-              <div class="service-mini-grid">
-                <div class="service-pill">
-                  <i class="fas fa-carrot" aria-hidden="true"></i>
-                  <div>
-                    <h4>Rabbits &amp; rodents</h4>
-                    <p>
-                      Tooth alignment checks, hay diets, and habitat hygiene
-                      coaching.
-                    </p>
-                  </div>
-                </div>
-                <div class="service-pill">
-                  <i class="fas fa-feather" aria-hidden="true"></i>
-                  <div>
-                    <h4>Bird beak &amp; wing</h4>
-                    <p>
-                      Partner avian vets on call for feathers that need extra
-                      love.
-                    </p>
+                  <div
+                    id="tab-small"
+                    class="tab-panel"
+                    data-tab-panel
+                    role="tabpanel"
+                    aria-labelledby="services-tab-small"
+                    aria-hidden="true"
+                  >
+                    <div class="service-mini-grid" data-reveal-stagger>
+                      <div class="service-pill reveal">
+                        <i class="fas fa-carrot" aria-hidden="true"></i>
+                        <div>
+                          <h4>Rabbits &amp; rodents</h4>
+                          <p>
+                            Tooth alignment checks, hay-forward diets, and
+                            habitat hygiene coaching.
+                          </p>
+                        </div>
+                      </div>
+                      <div class="service-pill reveal">
+                        <i class="fas fa-feather" aria-hidden="true"></i>
+                        <div>
+                          <h4>Bird beak &amp; wing</h4>
+                          <p>
+                            Partner avian vets when feathers need extra love or
+                            a second opinion.
+                          </p>
+                        </div>
+                      </div>
+                      <div class="service-pill reveal">
+                        <i class="fas fa-sun" aria-hidden="true"></i>
+                        <div>
+                          <h4>Reptiles &amp; amphibians</h4>
+                          <p>
+                            UV, heat gradients, and shedding checks — husbandry
+                            notes you can hand to any sitter.
+                          </p>
+                        </div>
+                      </div>
+                      <div class="service-pill reveal">
+                        <i class="fas fa-heart" aria-hidden="true"></i>
+                        <div>
+                          <h4>Ferrets &amp; pocket friends</h4>
+                          <p>
+                            Annuals, vaccines by species, and dental awareness
+                            before little teeth become big bills.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -742,6 +874,16 @@
           <p class="section-lead reveal">
             Meet a few of the people who keep tails wagging.
           </p>
+          <div
+            class="pet-reel pet-reel--inline"
+            data-pet-reel
+            data-pet-reel-pause-on=".team-card"
+            aria-hidden="true"
+          >
+            <div class="pet-reel__viewport">
+              <div class="pet-reel__track"></div>
+            </div>
+          </div>
           <div class="team-grid" data-reveal-stagger>
             <article class="team-card reveal">
               <img

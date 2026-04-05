@@ -18,14 +18,47 @@ function applyStagger(root) {
 }
 
 /**
+ * Replay one-by-one reveals (e.g. service tab cards). Skipped by initScrollReveal
+ * for roots inside [data-tabs-carousel].
+ * @param {Element | null} root
+ */
+export function playStaggerReveal(root) {
+  if (!root) return;
+  const prefersReduced =
+    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const children = root.querySelectorAll(":scope .reveal");
+  if (!children.length) return;
+  if (prefersReduced) {
+    children.forEach((el) => el.classList.add("is-visible"));
+    return;
+  }
+  applyStagger(root);
+  children.forEach((el) => el.classList.remove("is-visible"));
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      children.forEach((child, i) => {
+        window.setTimeout(() => {
+          child.classList.add("is-visible");
+        }, i * STAGGER_MS);
+      });
+    });
+  });
+}
+
+/**
  * Observe .reveal elements and toggle .is-visible when they enter the viewport.
  * Containers with [data-reveal-stagger] reveal their .reveal children in sequence.
  */
 export function initScrollReveal() {
-  document.querySelectorAll("[data-reveal-stagger]").forEach(applyStagger);
+  document.querySelectorAll("[data-reveal-stagger]").forEach((root) => {
+    if (root.closest("[data-tabs-carousel]")) return;
+    applyStagger(root);
+  });
 
   const standaloneReveals = document.querySelectorAll(".reveal");
-  const staggerRoots = document.querySelectorAll("[data-reveal-stagger]");
+  const staggerRoots = [...document.querySelectorAll("[data-reveal-stagger]")].filter(
+    (el) => !el.closest("[data-tabs-carousel]"),
+  );
 
   const prefersReduced =
     window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -35,6 +68,9 @@ export function initScrollReveal() {
     staggerRoots.forEach((root) => {
       root.querySelectorAll(".reveal").forEach((el) => el.classList.add("is-visible"));
     });
+    document
+      .querySelectorAll("[data-tabs-carousel] [data-reveal-stagger] .reveal")
+      .forEach((el) => el.classList.add("is-visible"));
     return;
   }
 
@@ -62,7 +98,9 @@ export function initScrollReveal() {
     { root: null, rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
   );
 
-  staggerRoots.forEach((el) => observer.observe(el));
+  staggerRoots.forEach((el) => {
+    observer.observe(el);
+  });
   standaloneReveals.forEach((el) => {
     if (el.closest("[data-reveal-stagger]")) return;
     observer.observe(el);

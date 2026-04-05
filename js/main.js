@@ -4,6 +4,7 @@
  */
 
 import { initRouter } from "./router.js";
+import { initPetReel } from "./petReel.js";
 import { initScrollReveal, initParallax } from "./scrollReveal.js";
 import { initRippleButtons } from "./ripple.js";
 import { initHeroRotation } from "./heroRotation.js";
@@ -29,6 +30,7 @@ function boot() {
   initDropdowns();
   initTabs();
   initFaq();
+  initPetReel();
   initScrollReveal();
   initParallax();
   initRouter();
