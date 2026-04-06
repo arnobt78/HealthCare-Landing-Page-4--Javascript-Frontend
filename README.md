@@ -12,7 +12,16 @@ An **educational, production-style landing site** for a fictional **Pawfect Care
 
 **Live demo:** [https://pets-healthcare.vercel.app/](https://pets-healthcare.vercel.app/)
 
----
+![Screenshot 1](https://github.com/user-attachments/assets/4740cd57-5d77-4181-b48f-b40cd11d5996)
+![Screenshot 2](https://github.com/user-attachments/assets/fc85e1d6-65c4-4d96-81bc-da0f782f452e)
+![Screenshot 3](https://github.com/user-attachments/assets/cba6ffd5-f322-4d89-b41f-fc267747f501)
+![Screenshot 4](https://github.com/user-attachments/assets/6c686414-f5a5-4fb5-b630-14d439da17c8)
+![Screenshot 5](https://github.com/user-attachments/assets/26e0a900-6db1-4c54-9730-b864315f6e19)
+![Screenshot 6](https://github.com/user-attachments/assets/df95197c-e6e2-4d6b-98b6-8aca48ee0d0c)
+![Screenshot 7](https://github.com/user-attachments/assets/0cc6b535-f740-4bb9-8721-842e5a74668a)
+![Screenshot 8](https://github.com/user-attachments/assets/373cd4fa-4a2e-4e61-ac3f-bfea01005c66)
+![Screenshot 9](https://github.com/user-attachments/assets/adfd1da1-28ef-4762-845a-518b3524a25d)
+![Screenshot 10](https://github.com/user-attachments/assets/af679e8a-a5b0-4071-b839-5d2805831da3)
 
 ## Table of contents
 
