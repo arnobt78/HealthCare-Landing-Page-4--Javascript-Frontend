@@ -20,8 +20,9 @@ An **educational, production-style landing site** for a fictional **Pawfect Care
 ![Screenshot 6](https://github.com/user-attachments/assets/df95197c-e6e2-4d6b-98b6-8aca48ee0d0c)
 ![Screenshot 7](https://github.com/user-attachments/assets/0cc6b535-f740-4bb9-8721-842e5a74668a)
 ![Screenshot 8](https://github.com/user-attachments/assets/373cd4fa-4a2e-4e61-ac3f-bfea01005c66)
-![Screenshot 9](https://github.com/user-attachments/assets/adfd1da1-28ef-4762-845a-518b3524a25d)
-![Screenshot 10](https://github.com/user-attachments/assets/af679e8a-a5b0-4071-b839-5d2805831da3)
+![Screenshot 9](https://github.com/user-attachments/assets/a84b3c37-1810-4858-b570-eda3d3359cca)
+![Screenshot 10](https://github.com/user-attachments/assets/adfd1da1-28ef-4762-845a-518b3524a25d)
+![Screenshot 11](https://github.com/user-attachments/assets/af679e8a-a5b0-4071-b839-5d2805831da3)
 
 ## Table of contents
 
