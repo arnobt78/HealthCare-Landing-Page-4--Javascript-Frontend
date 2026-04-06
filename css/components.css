@@ -1994,16 +1994,7 @@
   font-family: var(--font-display);
   font-size: 1.7rem;
   margin: 0 0 1.2rem;
-  color: transparent;
-  /* Darker peach/coral than body links for contrast on cream footer */
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--color-peach-deep) 78%, var(--color-ink) 22%),
-    color-mix(in srgb, var(--color-peach-deep) 58%, #6b2e24 42%)
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--color-peach-deep);
 }
 
 .footer-col a {
@@ -2022,10 +2013,15 @@
 
 .footer-bottom {
   margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid rgba(19, 116, 106, 0.15);
+  padding-top: 0;
   font-size: 1.35rem;
   color: var(--color-muted);
   opacity: 0.9;
   text-align: center;
+}
+
+/* Rule sits in content box so it aligns with footer columns (inside .max-w-9xl padding), not full-bleed */
+.footer-bottom__rule {
+  border-top: 1px solid rgba(19, 116, 106, 0.15);
+  margin-bottom: 2rem;
 }
